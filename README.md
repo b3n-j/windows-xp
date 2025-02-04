@@ -1,104 +1,184 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# Windows XP Clone - Project Documentation
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+## 1. Overview
+This project aims to create a faithful replica of the Windows XP interface using modern web technologies. The project includes the complete startup experience, from BIOS to the Windows XP desktop.
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+## 2. User Flow
+The following diagram illustrates the user journey from system startup to desktop access:
 
-## Features
+```mermaid
+graph TD
+    A[BIOS Startup Screen] -->|POST Animation| B[Windows Boot Animation]
+    B -->|Loading Bar| C[User Selection Screen]
+    C -->|Click on Benjamin profile| D[Profile Loading Animation]
+    D -->|Loading Complete| E[Windows XP Desktop]
+    
+    subgraph Desktop
+    E -->|Interaction| F[Start Menu]
+    E -->|Drag & Drop| G[Icons Management]
+    E -->|State| H[Taskbar]
+    end
+```
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+## 3. Component Architecture
+The following diagram shows the component structure of the application:
 
-## Demo
+```mermaid
+graph TD
+    A[Pages] -->|/| B[BiosScreen]
+    A -->|/desktop| C[DesktopLayout]
+    
+    B --> D[BiosAnimation]
+    B --> E[WindowsBootAnimation]
+    
+    C --> F[Taskbar]
+    C --> G[Desktop]
+    C --> H[StartMenu]
+    
+    F --> I[Clock]
+    F --> J[StartButton]
+    F --> K[RunningApps]
+    
+    G --> L[IconGrid]
+    G --> M[ContextMenu]
+    
+    H --> N[UserProfile]
+    H --> O[MenuItems]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:4px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bbf,stroke:#333,stroke-width:2px
+```
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+## 4. Technical Stack
+### Core
+- Next.js 15
+- React 19
+- Tailwind CSS
+- Shadcn/ui
+- Supabase
 
-## Deploy to Vercel
+### Recommended Additional Libraries
+- `react-dnd`: For icon drag and drop functionality
+- `framer-motion`: For smooth animations
+- `zustand`: For global state management
+- `howler.js`: For Windows XP sound effects
 
-Vercel deployment will guide you through creating a Supabase account and project.
+## 5. Technical Prerequisites
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+### 5.1 Required Assets
+- Windows XP system images (logo, buttons, icons)
+- Windows XP system sounds
+- System fonts (Tahoma, Microsoft Sans Serif)
+- Windows XP cursors
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+### 5.2 Key Features to Implement
+- Startup animations
+- Window system
+- Drag & drop icon management
+- Context menu (right-click)
+- Interactive taskbar
+- Start menu
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+## 6. Architecture
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+### 6.1 Folder Structure
+```
+app/
+├── _components/
+│   ├── assets/
+│   │   └── sample-icon.tsx
+│   ├── layout/
+│   ├── ui/
+│   │   ├── button.tsx
+│   │   └── badge.tsx
+│   └── widgets/
+│       ├── boot/
+│       │   ├── BiosScreen.tsx
+│       │   └── WindowsBootScreen.tsx
+│       └── desktop/
+│           ├── Desktop.tsx
+│           ├── Taskbar.tsx
+│           └── StartMenu.tsx
+├── _constants/
+│   ├── config.ts
+│   └── routes.ts
+├── _hooks/
+│   ├── useWindowSystem.ts
+│   └── useDesktopState.ts
+├── _types/
+├── _utils/
+│   ├── supabase/
+│   └── windows-utils/
+├── globals.css (global style)
+├── page.tsx (BIOS screen)
+└── desktop/
+    └── page.tsx (Windows desktop)
+```
 
-## Clone and run locally
+## 7. Execution Plan
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+### Phase 1: Setup & Foundation
+- Next.js project configuration
+- Dependencies installation
+- Basic structure creation
+- Required assets collection
+- Global styling system setup
 
-2. Create a Next.js app using the Supabase Starter template npx command
+### Phase 2: Boot Sequence
+- BIOS animation
+- Windows XP startup screen
+- User login screen
+- Transitions and animations
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+### Phase 3: Desktop Interface
+- Desktop implementation
+- Icon drag & drop system
+- Functional taskbar
+- Basic start menu
 
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
+### Phase 4: Advanced Features
+- Context menu
+- System sounds
+- Resizable windows
+- Animation enhancements
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+### Phase 5: Polish
+- Compatibility testing
+- Performance optimization
+- Bug fixes
+- Documentation
 
-3. Use `cd` to change into the app's directory
+## 8. Important Considerations
 
-   ```bash
-   cd with-supabase-app
-   ```
+### Performance
+- Implement lazy loading for components
+- Optimize animations to prevent slowdowns
+- Efficient media asset management
 
-4. Rename `.env.example` to `.env.local` and update the following:
+### Compatibility
+- Ensure cross-browser compatibility
+- Adapt interface for different resolutions
+- Handle touch events for mobile devices
 
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=[INSERT SUPABASE PROJECT API ANON KEY]
-   ```
+### Accessibility
+- Implement keyboard navigation
+- Add appropriate ARIA attributes
+- Support screen readers
 
-   Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
+## 9. Future Enhancement Suggestions
 
-5. You can now run the Next.js local development server:
+- Add classic Windows XP applications (Paint, Notepad)
+- Virtual file system
+- Advanced window management
+- Alternative Windows XP themes
+- Fullscreen mode
+- Desktop state saving
 
-   ```bash
-   npm run dev
-   ```
+## 10. Success Metrics
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
-
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
-
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
-
-## Feedback and issues
-
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
-
-## More Supabase examples
-
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+- Visual fidelity to Windows XP
+- Performance (loading time < 3s)
+- Animation smoothness (60 FPS)
+- Lighthouse score > 90
+- Modern browser support
