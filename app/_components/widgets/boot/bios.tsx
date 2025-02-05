@@ -16,13 +16,19 @@ export default function BiosScreen() {
   const [showCursor, setShowCursor] = useState(true);
   const [isMemoryTestComplete, setIsMemoryTestComplete] = useState(false);
   const [isBootingMessage, setIsBootingMessage] = useState(false);
+  const [date, setDate] = useState('');
 
   const biosText = [
     'Award Modular BIOS v6.00PG',
     'Copyright (C) 1984-2002, Award Software, Inc.',
     '',
+    `Current Date: ${date}`,
     'Intel(R) Pentium(R) 4 CPU 2.40GHz',
+    'CPU Speed: 2400 MHz',
+    'L1 Cache: 8K',
+    'L2 Cache: 512K',
     'Checking NVRAM... OK',
+    'CMOS Battery Status: OK',
     'Initializing USB Controllers... OK',
     'USB Device(s): 1 Keyboard, 1 Mouse',
     'Initializing IDE Master... WDC WD800JD-60LSA0',
@@ -91,6 +97,17 @@ export default function BiosScreen() {
     }, 500);
 
     return () => clearInterval(cursorInterval);
+  }, []);
+
+  useEffect(() => {
+    // Ajouter la date actuelle au démarrage
+    const now = new Date();
+    setDate(now.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric'
+    }));
   }, []);
 
   return (
