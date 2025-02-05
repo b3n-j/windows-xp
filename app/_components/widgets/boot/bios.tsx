@@ -99,8 +99,8 @@ export default function BiosScreen() {
     return () => clearInterval(cursorInterval);
   }, []);
 
+  /* Set current date */
   useEffect(() => {
-    // Ajouter la date actuelle au démarrage
     const now = new Date();
     setDate(now.toLocaleDateString('en-US', {
       weekday: 'short',

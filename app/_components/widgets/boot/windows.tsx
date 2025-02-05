@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { ROUTES } from '@/app/_constants/routes';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { ROUTES } from "@/app/_constants/routes";
 
 export default function WindowsBootScreen() {
   const router = useRouter();
@@ -30,14 +30,13 @@ export default function WindowsBootScreen() {
       <div className="absolute inset-0 flex items-center justify-center">
         <Image
           src="/images/windows-xp-loading-screen.gif"
-          alt="Windows XP Loading Animeation"
-          width={220}
-          height={220}
-          className="object-cover"
+          alt="Windows XP Loading Animation"
+          width={190}
+          height={0}
           priority
           unoptimized // Important pour les GIFs animés
         />
       </div>
     </div>
   );
-} 
+}
