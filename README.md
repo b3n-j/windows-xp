@@ -85,34 +85,43 @@ graph TD
 ### 6.1 Folder Structure
 ```
 app/
-├── _components/
-│   ├── assets/
-│   │   └── sample-icon.tsx
-│   ├── layout/
-│   ├── ui/
-│   │   ├── button.tsx
-│   │   └── badge.tsx
-│   └── widgets/
-│       ├── desktop/
-│       │   ├── Desktop.tsx
-│       │   ├── Taskbar.tsx
-│       │   └── StartMenu.tsx
-│       ├── bios.tsx
-│       └── windows-loader.tsx
-├── _constants/
-│   ├── config.ts
-│   └── routes.ts
-├── _hooks/
-│   ├── useWindowSystem.ts
-│   └── useDesktopState.ts
-├── _types/
-├── _utils/
-│   ├── supabase/
-│   └── windows-utils/
-├── globals.css (global style)
-├── page.tsx (BIOS screen)
-└── desktop/
-    └── page.tsx (Windows desktop)
+├── _components/                     # Contains reusable UI components
+│   ├── assets/                      # Directory for asset components (e.g., logos)
+│   │   ├── next-logo.tsx            
+│   │   └── supabase-logo.tsx        
+│   ├── ui/                          # UI components for various elements
+│   │   ├── badge.tsx                
+│   │   ├── button.tsx               
+│   │   ├── checkbox.tsx             
+│   │   ├── dropdown-menu.tsx        
+│   │   ├── input.tsx                
+│   │   ├── label.tsx                
+│   │   └── textarea.tsx             
+│   └── widgets/                     # Widget components for specific functionalities
+│       ├── bios.tsx                 # BIOS screen component for startup
+│       └── windows-loader.tsx       # Windows loading screen component
+├── _constants/                      # Constants used throughout the application
+│   ├── config.ts                    # Configuration constants
+│   └── routes.ts                    # Route constants for navigation
+├── _hooks/                          # Custom hooks for managing state and logic
+│   ├── useWindowSystem.ts           # Hook for managing window system state
+│   └── useDesktopState.ts           # Hook for managing desktop state
+├── _types/                          # Type definitions for TypeScript
+├── _utils/                          # Utility functions and helpers
+│   ├── class-names.ts               # Utility for managing class names
+│   ├── supabase/                    # Supabase-related utilities
+│   └── utils.ts                     # Utility functions
+├── _styles/                         # Stylesheets for the application
+│   ├── base/                        # Base styles for the application
+│   │   └── variables.css            # CSS variables for theming
+│   ├── components/                  # Component-specific styles
+│   │   └── bios.css                 # Styles for the BIOS screen component
+│   └── globals.css                  # Global styles applied throughout the application
+├── page.tsx                         # Main page component for the BIOS screen
+├── login/                           # Directory login page
+│    └── page.tsx                    # Main page component for the Windows user seclection page
+└── desktop/                         # Directory for desktop-related pages
+    └── page.tsx                     # Main page component for the Windows desktop
 ```
 
 ## 7. Execution Plan

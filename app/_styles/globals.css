@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @import "./base/variables.css";
+}
+
+@layer components {
+  @import './components/bios.css';
+}
+
+@layer utilities {
+  @import './utilities.css';
+}
