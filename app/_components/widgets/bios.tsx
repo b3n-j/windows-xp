@@ -8,7 +8,7 @@ const TYPING_SPEED = 50; /* Typing speed (ms) */
 const POST_DELAY = 750; /* Delay after POST (ms) */
 const MEMORY_TEST_DELAY = 1500; /* Memory test delay (ms) */
 
-export default function BiosScreen() {
+export default function Bios() {
   const router = useRouter();
   const [currentText, setCurrentText] = useState('');
   const [step, setStep] = useState(0);

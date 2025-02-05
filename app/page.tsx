@@ -1,9 +1,9 @@
-import BiosScreen from '@/app/_components/widgets/boot/bios';
+import Bios from '@/app/_components/widgets/bios';
 
 export default function Home() {
   return (
     <main className="fixed inset-0 w-screen h-screen overflow-hidden">
-      <BiosScreen />
+      <Bios />
     </main>
   );
 }

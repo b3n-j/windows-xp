@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ROUTES } from "@/app/_constants/routes";
 
-export default function WindowsBootScreen() {
+export default function WindowsLoader() {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
 
@@ -26,7 +26,7 @@ export default function WindowsBootScreen() {
 
   return (
     <div className="relative h-screen w-screen bg-black overflow-hidden">
-      {/* Animation GIF en arrière-plan */}
+      {/* Gif background animation */}
       <div className="absolute inset-0 flex items-center justify-center">
         <Image
           src="/images/windows-xp-loading-screen.gif"
@@ -34,7 +34,7 @@ export default function WindowsBootScreen() {
           width={190}
           height={0}
           priority
-          unoptimized // Important pour les GIFs animés
+          unoptimized /* Important for animated gifs */
         />
       </div>
     </div>

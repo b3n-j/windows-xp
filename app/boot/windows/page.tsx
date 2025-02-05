@@ -1,5 +1,5 @@
-import WindowsBootScreen from '@/app/_components/widgets/boot/windows';
+import WindowsLoader from '@/app/_components/widgets/windows-loader';
 
 export default function WindowsBootPage() {
-  return <WindowsBootScreen />;
+  return <WindowsLoader />;
 } 

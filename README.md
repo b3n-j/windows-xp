@@ -93,13 +93,12 @@ app/
 │   │   ├── button.tsx
 │   │   └── badge.tsx
 │   └── widgets/
-│       ├── boot/
-│       │   ├── bios.tsx
-│       │   └── windows.tsx
-│       └── desktop/
-│           ├── Desktop.tsx
-│           ├── Taskbar.tsx
-│           └── StartMenu.tsx
+│       ├── desktop/
+│       │   ├── Desktop.tsx
+│       │   ├── Taskbar.tsx
+│       │   └── StartMenu.tsx
+│       ├── bios.tsx
+│       └── windows-loader.tsx
 ├── _constants/
 │   ├── config.ts
 │   └── routes.ts
