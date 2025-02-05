@@ -57,6 +57,10 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  html, body {
+    @apply h-full w-full overflow-hidden;
+  }
 }
 
 @layer base {
@@ -65,5 +69,26 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .windows-xp-bg {
+    background-image: url('/images/wallpapers/bliss.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Styles pour le responsive */
+@media (max-width: 640px) {
+  .windows-container {
+    @apply scale-75;
+  }
+}
+
+@media (max-width: 480px) {
+  .windows-container {
+    @apply scale-50;
   }
 }

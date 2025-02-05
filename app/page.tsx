@@ -1,7 +1,5 @@
-export default async function Home() {
-  return (
-      <main>
-        Windows WP
-      </main>
-  );
+import BiosScreen from '@/app/_components/widgets/boot/bios';
+
+export default function Home() {
+  return <BiosScreen />;
 }
