@@ -94,8 +94,8 @@ app/
 │   │   └── badge.tsx
 │   └── widgets/
 │       ├── boot/
-│       │   ├── BiosScreen.tsx
-│       │   └── WindowsBootScreen.tsx
+│       │   ├── bios.tsx
+│       │   └── windows.tsx
 │       └── desktop/
 │           ├── Desktop.tsx
 │           ├── Taskbar.tsx

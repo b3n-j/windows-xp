@@ -31,8 +31,8 @@ export default function WindowsBootScreen() {
         <Image
           src="/images/windows-xp-loading-screen.gif"
           alt="Windows XP Loading Animeation"
-          width={250}
-          height={250}
+          width={220}
+          height={220}
           className="object-cover"
           priority
           unoptimized // Important pour les GIFs animés

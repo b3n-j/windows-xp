@@ -78,6 +78,45 @@
     background-size: cover;
     background-position: center;
   }
+
+  .bios-screen {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #000;
+    color: #fff;
+    padding: 2rem;
+    line-height: 1.2;
+    font-size: 14px;
+  }
+
+  .bios-text {
+    white-space: pre;
+    font-family: inherit;
+  }
+
+  .bios-cursor {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* Style pour le responsive du BIOS */
+  @media (max-width: 768px) {
+    .bios-screen {
+      font-size: 12px;
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .bios-screen {
+      font-size: 10px;
+      padding: 0.5rem;
+    }
+  }
 }
 
 /* Styles pour le responsive */
