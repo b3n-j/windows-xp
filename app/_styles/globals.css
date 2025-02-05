@@ -9,6 +9,7 @@
 @layer components {
   @import './components/bios.css';
   @import './components/login.css';
+  @import './components/desktop.css';
 }
 
 @layer utilities {

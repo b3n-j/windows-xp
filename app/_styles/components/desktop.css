@@ -1,0 +1,66 @@
+/* Styles spécifiques pour le menu démarrer qui ne peuvent pas être fait en Tailwind */
+.taskbar-button {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.taskbar-button:hover {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+}
+
+.taskbar-button:active {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.05));
+}
+
+.taskbar-divider {
+  background: linear-gradient(to bottom, 
+    rgba(0,0,0,0.2),
+    rgba(255,255,255,0.1)
+  );
+  width: 1px;
+  height: 85%;
+  margin: 0 2px;
+}
+
+.running-app {
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0.1),
+    rgba(255,255,255,0.05)
+  );
+}
+
+.running-app.active {
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0.3),
+    rgba(255,255,255,0.15)
+  );
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Style pour le séparateur de la barre des tâches */
+.taskbar-separator {
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.2),
+    rgba(255,255,255,0.1)
+  );
+}
+
+/* Style pour la zone système */
+.system-tray {
+  background: linear-gradient(to right,
+    rgba(30,70,170,0.5),
+    rgba(34,88,205,0.5)
+  );
+}
+
+/* Style pour les icônes système */
+.system-icon {
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.system-icon:hover {
+  opacity: 1;
+}
