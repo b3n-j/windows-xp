@@ -2,9 +2,9 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useDraggable } from '@dnd-kit/core';
-import { ResizableBox } from 'react-resizable';
+import { Resizable } from 'react-resizable';
 import Image from 'next/image';
-import 'react-resizable/css/styles.css';
+
 import { useWindows } from '@/app/_contexts/WindowContext';
 
 interface WindowProps {
@@ -57,7 +57,7 @@ export default function Window({
       if (typeof window !== 'undefined') {
         setMaxConstraints([
           document.documentElement.clientWidth - 50,
-          document.documentElement.clientHeight - 82
+          document.documentElement.clientHeight - 82 // 48px taskbar + 34px marge
         ]);
       }
     }
@@ -79,7 +79,7 @@ export default function Window({
     left: isMaximized ? 0 : (windowData?.position.x || defaultPosition.x),
     top: isMaximized ? 0 : (windowData?.position.y || defaultPosition.y),
     width: isMaximized ? '100%' : size.width,
-    height: isMaximized ? 'calc(100vh - 32px)' : size.height,
+    height: isMaximized ? 'calc(100% - 32px)' : size.height,
     backgroundColor: 'white',
     borderRadius: isMaximized ? 0 : '8px 8px 0 0',
     boxShadow: '0 0 10px rgba(0,0,0,0.2)',
@@ -88,19 +88,26 @@ export default function Window({
     overflow: 'hidden',
     transform: !isMaximized && transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
     touchAction: 'none',
-    zIndex: isActive ? 50 : 10
+    zIndex: isActive ? 100 : 50
   };
 
   const handleResize = (e: any, { size: newSize, handle }: { size: { width: number; height: number }, handle: string }) => {
     const updatedSize = {
       width: Math.max(newSize.width, minSize.width),
-      height: Math.max(newSize.height + 32, minSize.height)
+      height: Math.max(newSize.height, minSize.height)
     };
 
-    if (handle === 'nw' || handle === 'ne') {
+    if (handle === 'n') {
       const deltaY = size.height - updatedSize.height;
       if (windowData) {
         contextUpdateWindowPosition(id, 0, deltaY);
+      }
+    }
+
+    if (handle === 'w') {
+      const deltaX = size.width - updatedSize.width;
+      if (windowData) {
+        contextUpdateWindowPosition(id, deltaX, 0);
       }
     }
 
@@ -127,83 +134,14 @@ export default function Window({
       className={`window ${isActive ? 'active' : ''} ${isResizing ? 'resizing' : ''}`}
       onClick={onFocus}
     >
-      {/* Barre de titre */}
-      <div
-        {...attributes}
-        {...listeners}
-        className={`
-          h-8 flex items-center justify-between px-2
-          ${isActive 
-            ? 'bg-gradient-to-r from-[#0058ee] to-[#3591ff] text-white'
-            : 'bg-gradient-to-r from-[#7ba4e3] to-[#a7c7ff] text-gray-100'
-          }
-        `}
-      >
-        <div className="flex items-center gap-2">
-          {icon && (
-            <div className="relative w-4 h-4">
-              <Image
-                src={icon}
-                alt={title}
-                fill
-                className="object-contain"
-              />
-            </div>
-          )}
-          <span className="text-sm font-bold">{title}</span>
-        </div>
-        
-        <div className="flex items-center gap-1">
-          <button
-            onClick={onMinimize}
-            className="window-button"
-          >
-            <Image
-              src="/icons/window/minimize.png"
-              alt="Minimize"
-              width={16}
-              height={16}
-            />
-          </button>
-          
-          <button
-            onClick={() => {
-              setIsMaximized(!isMaximized);
-              onMaximize();
-            }}
-            className="window-button"
-          >
-            <Image
-              src={`/icons/window/${isMaximized ? 'restore' : 'maximize'}.png`}
-              alt={isMaximized ? 'Restore' : 'Maximize'}
-              width={16}
-              height={16}
-            />
-          </button>
-          
-          <button
-            onClick={onClose}
-            className="window-button close-button"
-          >
-            <Image
-              src="/icons/window/close.png"
-              alt="Close"
-              width={16}
-              height={16}
-            />
-          </button>
-        </div>
-      </div>
-
-      {/* Contenu de la fenêtre */}
-      {!isMaximized ? (
-        <ResizableBox
+      {!isMaximized && (
+        <Resizable
           width={size.width}
-          height={size.height - 32}
+          height={size.height}
           minConstraints={[minSize.width, minSize.height]}
           maxConstraints={[maxConstraints[0], maxConstraints[1]]}
           onResize={handleResize}
-          resizeHandles={['se']}
+          resizeHandles={['s', 'w', 'e', 'n', 'se']}
           draggableOpts={{ 
             grid: [1, 1],
             enableUserSelectHack: false
@@ -212,14 +150,158 @@ export default function Window({
           onResizeStart={handleResizeStart}
           onResizeStop={handleResizeStop}
         >
-          <div className="w-full h-full overflow-auto bg-white">
+          <div className="w-full h-full relative">
+            {/* Barre de titre */}
+            <div
+              {...attributes}
+              {...listeners}
+              className={`
+                h-8 flex items-center justify-between px-2
+                ${isActive 
+                  ? 'bg-gradient-to-r from-[#0058ee] to-[#3591ff] text-white'
+                  : 'bg-gradient-to-r from-[#7ba4e3] to-[#a7c7ff] text-gray-100'
+                }
+              `}
+            >
+              <div className="flex items-center gap-2">
+                {icon && (
+                  <div className="relative w-4 h-4">
+                    <Image
+                      src={icon}
+                      alt={title}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+                <span className="text-sm font-bold">{title}</span>
+              </div>
+              
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={onMinimize}
+                  className="window-button"
+                >
+                  <Image
+                    src="/icons/window/minimize.png"
+                    alt="Minimize"
+                    width={16}
+                    height={16}
+                  />
+                </button>
+                
+                <button
+                  onClick={() => {
+                    setIsMaximized(!isMaximized);
+                    onMaximize();
+                  }}
+                  className="window-button"
+                >
+                  <Image
+                    src={`/icons/window/${isMaximized ? 'restore' : 'maximize'}.png`}
+                    alt={isMaximized ? 'Restore' : 'Maximize'}
+                    width={16}
+                    height={16}
+                  />
+                </button>
+                
+                <button
+                  onClick={onClose}
+                  className="window-button close-button"
+                >
+                  <Image
+                    src="/icons/window/close.png"
+                    alt="Close"
+                    width={16}
+                    height={16}
+                  />
+                </button>
+              </div>
+            </div>
+
+            {/* Contenu de la fenêtre */}
+            <div className="w-full overflow-auto bg-white" style={{ height: 'calc(100% - 32px)' }}>
+              {children}
+            </div>
+          </div>
+        </Resizable>
+      )}
+
+      {isMaximized && (
+        <>
+          {/* Barre de titre */}
+          <div
+            {...attributes}
+            {...listeners}
+            className={`
+              h-8 flex items-center justify-between px-2
+              ${isActive 
+                ? 'bg-gradient-to-r from-[#0058ee] to-[#3591ff] text-white'
+                : 'bg-gradient-to-r from-[#7ba4e3] to-[#a7c7ff] text-gray-100'
+              }
+            `}
+          >
+            <div className="flex items-center gap-2">
+              {icon && (
+                <div className="relative w-4 h-4">
+                  <Image
+                    src={icon}
+                    alt={title}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              )}
+              <span className="text-sm font-bold">{title}</span>
+            </div>
+            
+            <div className="flex items-center gap-1">
+              <button
+                onClick={onMinimize}
+                className="window-button"
+              >
+                <Image
+                  src="/icons/window/minimize.png"
+                  alt="Minimize"
+                  width={16}
+                  height={16}
+                />
+              </button>
+              
+              <button
+                onClick={() => {
+                  setIsMaximized(!isMaximized);
+                  onMaximize();
+                }}
+                className="window-button"
+              >
+                <Image
+                  src={`/icons/window/${isMaximized ? 'restore' : 'maximize'}.png`}
+                  alt={isMaximized ? 'Restore' : 'Maximize'}
+                  width={16}
+                  height={16}
+                />
+              </button>
+              
+              <button
+                onClick={onClose}
+                className="window-button close-button"
+              >
+                <Image
+                  src="/icons/window/close.png"
+                  alt="Close"
+                  width={16}
+                  height={16}
+                />
+              </button>
+            </div>
+          </div>
+          
+          {/* Contenu de la fenêtre */}
+          <div className="flex-1 overflow-auto bg-white">
             {children}
           </div>
-        </ResizableBox>
-      ) : (
-        <div className="flex-1 overflow-auto bg-white">
-          {children}
-        </div>
+        </>
       )}
     </div>
   );

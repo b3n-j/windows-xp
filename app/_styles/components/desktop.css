@@ -1,4 +1,4 @@
-/* Styles spécifiques pour le menu démarrer qui ne peuvent pas être fait en Tailwind */
+/* Styles pour la barre des tâches */
 .taskbar-button {
   background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
   border: 1px solid rgba(255,255,255,0.2);
@@ -12,31 +12,6 @@
   background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.05));
 }
 
-.taskbar-divider {
-  background: linear-gradient(to bottom, 
-    rgba(0,0,0,0.2),
-    rgba(255,255,255,0.1)
-  );
-  width: 1px;
-  height: 85%;
-  margin: 0 2px;
-}
-
-.running-app {
-  background: linear-gradient(to bottom,
-    rgba(255,255,255,0.1),
-    rgba(255,255,255,0.05)
-  );
-}
-
-.running-app.active {
-  background: linear-gradient(to bottom,
-    rgba(255,255,255,0.3),
-    rgba(255,255,255,0.15)
-  );
-  border: 1px solid rgba(255,255,255,0.3);
-}
-
 /* Style pour le séparateur de la barre des tâches */
 .taskbar-separator {
   width: 1px;
@@ -45,24 +20,6 @@
     rgba(0,0,0,0.2),
     rgba(255,255,255,0.1)
   );
-}
-
-/* Style pour la zone système */
-.system-tray {
-  background: linear-gradient(to right,
-    rgba(30,70,170,0.5),
-    rgba(34,88,205,0.5)
-  );
-}
-
-/* Style pour les icônes système */
-.system-icon {
-  opacity: 0.85;
-  transition: opacity 0.2s;
-}
-
-.system-icon:hover {
-  opacity: 1;
 }
 
 /* Styles pour les fenêtres */
@@ -82,23 +39,73 @@
   @apply bg-red-500;
 }
 
-/* Styles pour la poignée de redimensionnement */
+/* Styles pour les poignées de redimensionnement */
 .resize-handle {
   position: relative;
 }
 
-.resize-handle .react-resizable-handle {
+/* Poignée coin inférieur droit */
+.resize-handle .react-resizable-handle-se {
   position: absolute;
-  bottom: -3px;
-  right: -3px;
-  width: 15px;
-  height: 15px;
+  bottom: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
   cursor: se-resize;
+  z-index: 10;
+  background-color: transparent;
+}
+
+/* Poignées horizontales (haut/bas) */
+.resize-handle .react-resizable-handle-s,
+.resize-handle .react-resizable-handle-n {
+  position: absolute;
+  left: -8px;
+  width: calc(100% + 16px);
+  height: 16px;
+  cursor: ns-resize;
+  z-index: 10;
+  background-color: transparent;
+}
+
+/* Poignée du haut */
+.resize-handle .react-resizable-handle-n {
+  top: -8px;
+  background-color: transparent;
+}
+
+/* Poignée du bas */
+.resize-handle .react-resizable-handle-s {
+  bottom: -8px;
+  background-color: transparent;
+}
+
+/* Poignées verticales (gauche/droite) */
+.resize-handle .react-resizable-handle-e,
+.resize-handle .react-resizable-handle-w {
+  position: absolute;
+  top: -8px;
+  width: 16px;
+  height: calc(100% + 16px); /* Étend la zone au-delà des bords */
+  cursor: ew-resize;
   z-index: 10;
 }
 
-.window.active .react-resizable-handle {
-  background: url('/icons/window/resize.png') no-repeat right bottom;
+/* Poignée droite */
+.resize-handle .react-resizable-handle-e {
+  right: -8px;
+  background-color: transparent;
+}
+
+/* Poignée gauche */
+.resize-handle .react-resizable-handle-w {
+  left: -8px;
+  background-color: transparent;
+}
+
+/* Style actif pour la poignée de redimensionnement */
+.window.active .react-resizable-handle-se {
+  background: transparent url('/icons/window/resize.png') no-repeat right bottom;
   background-size: 12px;
 }
 
