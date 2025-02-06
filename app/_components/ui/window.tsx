@@ -43,6 +43,12 @@ export default function Window({
   const [isMaximized, setIsMaximized] = useState(false);
   const windowRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (windowRef.current) {
+      windowRef.current.style.zIndex = isActive ? '50' : '10';
+    }
+  }, [isActive]);
+
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `window-${id}`,
     disabled: isMaximized
@@ -50,18 +56,19 @@ export default function Window({
 
   const windowStyle = {
     position: 'absolute' as const,
-    left: window?.position.x || defaultPosition.x,
-    top: window?.position.y || defaultPosition.y,
+    left: isMaximized ? 0 : (window?.position.x || defaultPosition.x),
+    top: isMaximized ? 0 : (window?.position.y || defaultPosition.y),
     width: isMaximized ? '100%' : size.width,
-    height: isMaximized ? 'calc(100% - 32px)' : size.height,
+    height: isMaximized ? 'calc(100vh - 32px)' : size.height,
     backgroundColor: 'white',
-    borderRadius: '8px 8px 0 0',
+    borderRadius: isMaximized ? 0 : '8px 8px 0 0',
     boxShadow: '0 0 10px rgba(0,0,0,0.2)',
     display: 'flex',
     flexDirection: 'column' as const,
     overflow: 'hidden',
-    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
-    touchAction: 'none'
+    transform: !isMaximized && transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+    touchAction: 'none',
+    zIndex: isActive ? 50 : 10
   };
 
   return (

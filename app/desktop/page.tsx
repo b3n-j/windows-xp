@@ -73,7 +73,7 @@ export default function DesktopPage() {
         />
 
         {/* Zone du bureau avec les fenêtres */}
-        <div className="absolute inset-0 pb-8">
+        <div className="absolute inset-0">
           {windows.map((window) => (
             !window.isMinimized && (
               <Window
