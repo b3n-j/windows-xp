@@ -1,15 +1,20 @@
-'use client';
+import Image from 'next/image';
 
 export default function StartMenu({ onClose }: { onClose: () => void }) {
   return (
-    <div className="absolute bottom-12 left-0 w-96 bg-white rounded-t-lg shadow-xl">
+    <div className="absolute bottom-8 left-0 w-96 bg-white rounded-t-lg shadow-xl">
       {/* En-tête avec l'utilisateur */}
       <div className="h-20 bg-gradient-to-r from-[#245EDC] to-[#3C8EF3] rounded-t-lg p-4 flex items-center gap-4">
-        <img 
-          src="/images/account/astronaut.jpg"
-          alt="User"
-          className="w-12 h-12 rounded-full border-2 border-white"
-        />
+        <div className="relative w-12 h-12">
+          <Image 
+            src="/images/account/astronaut.jpg"
+            alt="User"
+            fill
+            sizes="48px"
+            priority
+            className="object-cover rounded-full border-2 border-white"
+          />
+        </div>
         <span className="text-white font-bold">Benjamin Gracia</span>
       </div>
 

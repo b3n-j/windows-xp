@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function RunningApps() {
   // Pour l'instant, simulons une application ouverte
   const openApps = [
@@ -15,7 +17,9 @@ export default function RunningApps() {
             app.isActive ? 'bg-gradient-to-b from-[rgba(255,255,255,0.3)] to-[rgba(255,255,255,0.2)]' : ''
           }`}
         >
-          <img src={app.icon} alt={app.title} className="w-6 h-6" />
+          <div className="relative w-6 h-6">
+            <Image src={app.icon} alt={app.title} fill className="object-contain" />
+          </div>
           <span className="text-white text-sm truncate">{app.title}</span>
         </button>
       ))}

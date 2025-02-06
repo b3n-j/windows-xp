@@ -20,6 +20,7 @@ export default function UserTile() {
             src="/images/account/astronaut.jpg"
             alt="Benjamin"
             fill
+            priority
             className="object-cover rounded-lg border-2 border-white/50"
           />
         </div>

@@ -1,5 +1,3 @@
-'use client';
-
 import StartButton from '@/app/_components/widgets/desktop/taskbar/start-button';
 import QuickLaunch from '@/app/_components/widgets/desktop/taskbar/quick-launch';
 import RunningApps from '@/app/_components/widgets/desktop/taskbar/running-apps';
