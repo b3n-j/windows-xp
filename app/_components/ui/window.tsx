@@ -5,7 +5,6 @@ import { useDraggable } from '@dnd-kit/core';
 import { ResizableBox } from 'react-resizable';
 import Image from 'next/image';
 import 'react-resizable/css/styles.css';
-import type { DragEndEvent } from '@dnd-kit/core';
 import { useWindows } from '@/app/_contexts/WindowContext';
 
 interface WindowProps {
@@ -21,6 +20,7 @@ interface WindowProps {
   onClose: () => void;
   onMinimize: () => void;
   onMaximize: () => void;
+  updateWindowPosition: (id: string, deltaX: number, deltaY: number) => void;
 }
 
 export default function Window({
@@ -35,19 +35,39 @@ export default function Window({
   onFocus,
   onClose,
   onMinimize,
-  onMaximize
+  onMaximize,
+  updateWindowPosition
 }: WindowProps) {
-  const { windows } = useWindows();
-  const window = windows.find(w => w.id === id);
+  const { windows, updateWindowSize, updateWindowPosition: contextUpdateWindowPosition } = useWindows();
+  const windowData = windows.find(w => w.id === id);
   const [size, setSize] = useState(defaultSize);
   const [isMaximized, setIsMaximized] = useState(false);
   const windowRef = useRef<HTMLDivElement>(null);
+  const [maxConstraints, setMaxConstraints] = useState([1200, 800]);
+  const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
     if (windowRef.current) {
       windowRef.current.style.zIndex = isActive ? '50' : '10';
     }
   }, [isActive]);
+
+  useEffect(() => {
+    function updateMaxConstraints() {
+      if (typeof window !== 'undefined') {
+        setMaxConstraints([
+          document.documentElement.clientWidth - 50,
+          document.documentElement.clientHeight - 82
+        ]);
+      }
+    }
+
+    updateMaxConstraints();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', updateMaxConstraints);
+      return () => window.removeEventListener('resize', updateMaxConstraints);
+    }
+  }, []);
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `window-${id}`,
@@ -56,8 +76,8 @@ export default function Window({
 
   const windowStyle = {
     position: 'absolute' as const,
-    left: isMaximized ? 0 : (window?.position.x || defaultPosition.x),
-    top: isMaximized ? 0 : (window?.position.y || defaultPosition.y),
+    left: isMaximized ? 0 : (windowData?.position.x || defaultPosition.x),
+    top: isMaximized ? 0 : (windowData?.position.y || defaultPosition.y),
     width: isMaximized ? '100%' : size.width,
     height: isMaximized ? 'calc(100vh - 32px)' : size.height,
     backgroundColor: 'white',
@@ -71,6 +91,31 @@ export default function Window({
     zIndex: isActive ? 50 : 10
   };
 
+  const handleResize = (e: any, { size: newSize, handle }: { size: { width: number; height: number }, handle: string }) => {
+    const updatedSize = {
+      width: Math.max(newSize.width, minSize.width),
+      height: Math.max(newSize.height + 32, minSize.height)
+    };
+
+    if (handle === 'nw' || handle === 'ne') {
+      const deltaY = size.height - updatedSize.height;
+      if (windowData) {
+        contextUpdateWindowPosition(id, 0, deltaY);
+      }
+    }
+
+    setSize(updatedSize);
+    updateWindowSize(id, updatedSize.width, updatedSize.height);
+  };
+
+  const handleResizeStart = () => {
+    setIsResizing(true);
+  };
+
+  const handleResizeStop = () => {
+    setIsResizing(false);
+  };
+
   return (
     <div
       id={`window-${id}`}
@@ -79,7 +124,7 @@ export default function Window({
         if (windowRef) windowRef.current = el;
       }}
       style={windowStyle}
-      className={`window ${isActive ? 'active' : ''}`}
+      className={`window ${isActive ? 'active' : ''} ${isResizing ? 'resizing' : ''}`}
       onClick={onFocus}
     >
       {/* Barre de titre */}
@@ -154,16 +199,25 @@ export default function Window({
       {!isMaximized ? (
         <ResizableBox
           width={size.width}
-          height={size.height - 32} // Soustraction de la hauteur du header
+          height={size.height - 32}
           minConstraints={[minSize.width, minSize.height]}
+          maxConstraints={[maxConstraints[0], maxConstraints[1]]}
+          onResize={handleResize}
+          resizeHandles={['se']}
+          draggableOpts={{ 
+            grid: [1, 1],
+            enableUserSelectHack: false
+          }}
           className="resize-handle"
+          onResizeStart={handleResizeStart}
+          onResizeStop={handleResizeStop}
         >
-          <div className="w-full h-full overflow-auto">
+          <div className="w-full h-full overflow-auto bg-white">
             {children}
           </div>
         </ResizableBox>
       ) : (
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto bg-white">
           {children}
         </div>
       )}

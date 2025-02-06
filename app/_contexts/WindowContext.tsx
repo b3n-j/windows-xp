@@ -10,6 +10,7 @@ interface Window {
   isActive: boolean;
   component: React.ReactNode;
   position: { x: number; y: number };
+  size: { width: number; height: number };
 }
 
 interface WindowContextType {
@@ -21,6 +22,7 @@ interface WindowContextType {
   restoreWindow: (id: string) => void;
   focusWindow: (id: string) => void;
   updateWindowPosition: (id: string, deltaX: number, deltaY: number) => void;
+  updateWindowSize: (id: string, width: number, height: number) => void;
 }
 
 const WindowContext = createContext<WindowContextType | null>(null);
@@ -34,7 +36,8 @@ export function WindowProvider({ children }: { children: React.ReactNode }) {
       ...window, 
       isMinimized: false, 
       isActive: true,
-      position: { x: 100, y: 100 }
+      position: { x: 100, y: 100 },
+      size: { width: 800, height: 600 }
     }]);
     setActiveWindowId(window.id);
   };
@@ -82,6 +85,17 @@ export function WindowProvider({ children }: { children: React.ReactNode }) {
     ));
   };
 
+  const updateWindowSize = (id: string, width: number, height: number) => {
+    setWindows(prev => prev.map(w => 
+      w.id === id 
+        ? { 
+            ...w, 
+            size: { width, height }
+          }
+        : w
+    ));
+  };
+
   return (
     <WindowContext.Provider value={{
       windows,
@@ -91,7 +105,8 @@ export function WindowProvider({ children }: { children: React.ReactNode }) {
       minimizeWindow,
       restoreWindow,
       focusWindow,
-      updateWindowPosition
+      updateWindowPosition,
+      updateWindowSize
     }}>
       {children}
     </WindowContext.Provider>
