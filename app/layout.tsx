@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
 import React from "react";
 import "@/app/_styles/globals.css";
+import { WindowProvider } from '@/app/_contexts/WindowContext';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -34,10 +35,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen w-screen overflow-hidden">
-            {children}
-            <SpeedInsights />
-          </main>
+          <WindowProvider>
+            <main className="min-h-screen w-screen overflow-hidden">
+              {children}
+              <SpeedInsights />
+            </main>
+          </WindowProvider>
         </ThemeProvider>
       </body>
     </html>

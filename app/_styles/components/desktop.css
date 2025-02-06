@@ -64,3 +64,43 @@
 .system-icon:hover {
   opacity: 1;
 }
+
+/* Styles pour les fenêtres */
+.window {
+  transition: box-shadow 0.2s;
+}
+
+.window.active {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.window-button {
+  @apply w-6 h-6 flex items-center justify-center rounded hover:bg-white/20 active:bg-white/10;
+}
+
+.window-button.close-button:hover {
+  @apply bg-red-500;
+}
+
+/* Styles pour les poignées de redimensionnement */
+.resize-handle {
+  position: relative;
+}
+
+.resize-handle .react-resizable-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+}
+
+.resize-handle .react-resizable-handle-se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}

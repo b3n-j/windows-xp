@@ -1,6 +1,23 @@
 import Image from 'next/image';
+import { useWindows } from '@/app/_contexts/WindowContext';
 
 export default function StartMenu({ onClose }: { onClose: () => void }) {
+  const { addWindow } = useWindows();
+
+  const openNotepad = () => {
+    addWindow({
+      id: `notepad-${Date.now()}`, // ID unique
+      title: "Notepad",
+      icon: "/icons/notepad.ico",
+      component: (
+        <div className="p-4">
+          <textarea className="w-full h-full resize-none" />
+        </div>
+      )
+    });
+    onClose(); // Ferme le menu démarrer
+  };
+
   return (
     <div className="absolute bottom-8 left-0 w-96 bg-white rounded-t-lg shadow-xl">
       {/* En-tête avec l'utilisateur */}
@@ -22,7 +39,9 @@ export default function StartMenu({ onClose }: { onClose: () => void }) {
       <div className="flex h-[400px]">
         {/* Colonne de gauche */}
         <div className="w-2/3 p-2 bg-white">
-          {/* Les programmes récents iront ici */}
+          <button onClick={openNotepad} className="w-full text-left p-2 hover:bg-blue-50">
+            Notepad
+          </button>
         </div>
 
         {/* Colonne de droite */}
