@@ -116,10 +116,10 @@ app/
 │   │   └── variables.css            # CSS variables for theming
 │   ├── components/                  # Component-specific styles
 │   │   └── bios.css                 # Styles for the BIOS screen component
-│   └── globals.css                  # Global styles applied throughout the application
+│   └── globals.css                  # Global styles applied throughout the 
 ├── page.tsx                         # Main page component for the BIOS screen
 ├── login/                           # Directory login page
-│    └── page.tsx                    # Main page component for the Windows user seclection page
+│    └── page.tsx                    # Main page component for the Windows user
 └── desktop/                         # Directory for desktop-related pages
     └── page.tsx                     # Main page component for the Windows desktop
 ```
