@@ -92,27 +92,31 @@ export default function Window({
   };
 
   const handleResize = (e: any, { size: newSize, handle }: { size: { width: number; height: number }, handle: string }) => {
+    e.preventDefault();
+
     const updatedSize = {
-      width: Math.max(newSize.width, minSize.width),
-      height: Math.max(newSize.height, minSize.height)
+      width: Math.round(Math.max(newSize.width, minSize.width)),
+      height: Math.round(Math.max(newSize.height, minSize.height))
     };
 
     if (handle === 'n') {
-      const deltaY = size.height - updatedSize.height;
+      const deltaY = Math.round(size.height - updatedSize.height);
       if (windowData) {
         contextUpdateWindowPosition(id, 0, deltaY);
       }
     }
 
     if (handle === 'w') {
-      const deltaX = size.width - updatedSize.width;
+      const deltaX = Math.round(size.width - updatedSize.width);
       if (windowData) {
         contextUpdateWindowPosition(id, deltaX, 0);
       }
     }
 
-    setSize(updatedSize);
-    updateWindowSize(id, updatedSize.width, updatedSize.height);
+    requestAnimationFrame(() => {
+      setSize(updatedSize);
+      updateWindowSize(id, updatedSize.width, updatedSize.height);
+    });
   };
 
   const handleResizeStart = () => {
@@ -144,11 +148,14 @@ export default function Window({
           resizeHandles={['s', 'w', 'e', 'n', 'se']}
           draggableOpts={{ 
             grid: [1, 1],
-            enableUserSelectHack: false
+            enableUserSelectHack: false,
+            enableUserSelectAll: false,
+            enableTransforms: true
           }}
           className="resize-handle"
           onResizeStart={handleResizeStart}
           onResizeStop={handleResizeStop}
+          transformScale={1}
         >
           <div className="w-full h-full relative">
             {/* Barre de titre */}
