@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { useDraggable } from '@dnd-kit/core';
+import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import Image from 'next/image';
-
 import { useWindows } from '@/app/_contexts/WindowContext';
 
 interface WindowProps {
@@ -20,7 +19,6 @@ interface WindowProps {
   onClose: () => void;
   onMinimize: () => void;
   onMaximize: () => void;
-  updateWindowPosition: (id: string, deltaX: number, deltaY: number) => void;
 }
 
 export default function Window({
@@ -36,59 +34,37 @@ export default function Window({
   onClose,
   onMinimize,
   onMaximize,
-  updateWindowPosition
 }: WindowProps) {
-  const { windows, updateWindowSize, updateWindowPosition: contextUpdateWindowPosition } = useWindows();
+  const { windows, updateWindowSize, updateWindowPosition } = useWindows();
   const windowData = windows.find(w => w.id === id);
   const [size, setSize] = useState(defaultSize);
   const [isMaximized, setIsMaximized] = useState(false);
-  const windowRef = useRef<HTMLDivElement>(null);
   const [maxConstraints, setMaxConstraints] = useState([1200, 800]);
   const [isResizing, setIsResizing] = useState(false);
-
-  useEffect(() => {
-    if (windowRef.current) {
-      windowRef.current.style.zIndex = isActive ? '50' : '10';
-    }
-  }, [isActive]);
+  const dragRef = useRef<HTMLDivElement>(null);
+  const nodeRef = useRef(null);
 
   useEffect(() => {
     function updateMaxConstraints() {
       if (typeof window !== 'undefined') {
         setMaxConstraints([
           document.documentElement.clientWidth - 50,
-          document.documentElement.clientHeight - 82 // 48px taskbar + 34px marge
+          document.documentElement.clientHeight - 82
         ]);
       }
     }
 
     updateMaxConstraints();
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', updateMaxConstraints);
-      return () => window.removeEventListener('resize', updateMaxConstraints);
-    }
+    window.addEventListener('resize', updateMaxConstraints);
+    return () => window.removeEventListener('resize', updateMaxConstraints);
   }, []);
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: `window-${id}`,
-    disabled: isMaximized
-  });
-
-  const windowStyle = {
-    position: 'absolute' as const,
-    left: isMaximized ? 0 : (windowData?.position.x || defaultPosition.x),
-    top: isMaximized ? 0 : (windowData?.position.y || defaultPosition.y),
-    width: isMaximized ? '100%' : size.width,
-    height: isMaximized ? 'calc(100% - 32px)' : size.height,
-    backgroundColor: 'white',
-    borderRadius: isMaximized ? 0 : '8px 8px 0 0',
-    boxShadow: '0 0 10px rgba(0,0,0,0.2)',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    overflow: 'hidden',
-    transform: !isMaximized && transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
-    touchAction: 'none',
-    zIndex: isActive ? 100 : 50
+  const handleDrag = (e: any, data: { x: number; y: number }) => {
+    if (windowData && !isMaximized) {
+      const deltaX = data.x - windowData.position.x;
+      const deltaY = data.y - windowData.position.y;
+      updateWindowPosition(id, deltaX, deltaY);
+    }
   };
 
   const handleResize = (e: any, { size: newSize, handle }: { size: { width: number; height: number }, handle: string }) => {
@@ -102,14 +78,14 @@ export default function Window({
     if (handle === 'n') {
       const deltaY = Math.round(size.height - updatedSize.height);
       if (windowData) {
-        contextUpdateWindowPosition(id, 0, deltaY);
+        updateWindowPosition(id, 0, deltaY);
       }
     }
 
     if (handle === 'w') {
       const deltaX = Math.round(size.width - updatedSize.width);
       if (windowData) {
-        contextUpdateWindowPosition(id, deltaX, 0);
+        updateWindowPosition(id, deltaX, 0);
       }
     }
 
@@ -119,197 +95,132 @@ export default function Window({
     });
   };
 
-  const handleResizeStart = () => {
-    setIsResizing(true);
+  const handleResizeStart = () => setIsResizing(true);
+  const handleResizeStop = () => setIsResizing(false);
+
+  const handleMaximize = () => {
+    setIsMaximized(!isMaximized);
+    onMaximize();
   };
 
-  const handleResizeStop = () => {
-    setIsResizing(false);
+  const windowStyle = {
+    width: isMaximized ? '100%' : size.width,
+    height: isMaximized ? 'calc(100% - 32px)' : size.height,
+    backgroundColor: 'white',
+    borderRadius: isMaximized ? 0 : '8px 8px 0 0',
+    boxShadow: isActive ? '0 4px 20px rgba(0,0,0,0.3)' : '0 0 10px rgba(0,0,0,0.2)',
+    display: 'flex',
+    flexDirection: 'column' as const,
+    overflow: 'hidden',
+    position: 'absolute' as const,
+    zIndex: windowData?.zIndex || 50,
   };
 
   return (
-    <div
-      id={`window-${id}`}
-      ref={(el) => {
-        setNodeRef(el);
-        if (windowRef) windowRef.current = el;
-      }}
-      style={windowStyle}
-      className={`window ${isActive ? 'active' : ''} ${isResizing ? 'resizing' : ''}`}
-      onClick={onFocus}
+    <Draggable
+      nodeRef={nodeRef}
+      handle=".window-title-bar"
+      position={isMaximized ? { x: 0, y: 0 } : windowData?.position || defaultPosition}
+      onDrag={handleDrag}
+      onMouseDown={onFocus}
+      disabled={isMaximized}
     >
-      {!isMaximized && (
-        <Resizable
-          width={size.width}
-          height={size.height}
-          minConstraints={[minSize.width, minSize.height]}
-          maxConstraints={[maxConstraints[0], maxConstraints[1]]}
-          onResize={handleResize}
-          resizeHandles={['s', 'w', 'e', 'n', 'se']}
-          draggableOpts={{ 
-            grid: [1, 1],
-            enableUserSelectHack: false,
-            enableUserSelectAll: false,
-            enableTransforms: true
-          }}
-          className="resize-handle"
-          onResizeStart={handleResizeStart}
-          onResizeStop={handleResizeStop}
-          transformScale={1}
-        >
-          <div className="w-full h-full relative">
-            {/* Barre de titre */}
-            <div
-              {...attributes}
-              {...listeners}
-              className={`
-                h-8 flex items-center justify-between px-2
-                ${isActive 
-                  ? 'bg-gradient-to-r from-[#0058ee] to-[#3591ff] text-white'
-                  : 'bg-gradient-to-r from-[#7ba4e3] to-[#a7c7ff] text-gray-100'
-                }
-              `}
-            >
+      <div
+        ref={nodeRef}
+        className={`window ${isActive ? 'active' : ''} ${isResizing ? 'resizing' : ''}`}
+        style={windowStyle}
+      >
+        {!isMaximized && (
+          <Resizable
+            width={size.width}
+            height={size.height}
+            minConstraints={[minSize.width, minSize.height]}
+            maxConstraints={[maxConstraints[0], maxConstraints[1]]}
+            onResize={handleResize}
+            onResizeStart={handleResizeStart}
+            onResizeStop={handleResizeStop}
+            resizeHandles={['s', 'w', 'e', 'n', 'se']}
+            className="resize-handle"
+          >
+            <div style={{ width: '100%', height: '100%' }}>
+              <div
+                className={`
+                  window-title-bar h-8 flex items-center justify-between px-2
+                  ${isActive 
+                    ? 'bg-gradient-to-r from-[#0058ee] to-[#3591ff] text-white'
+                    : 'bg-gradient-to-r from-[#7ba4e3] to-[#a7c7ff] text-gray-100'
+                  }
+                `}
+              >
+                <div className="flex items-center gap-2">
+                  {icon && (
+                    <div className="relative w-4 h-4">
+                      <Image src={icon} alt={title} fill className="object-contain" />
+                    </div>
+                  )}
+                  <span className="text-sm font-bold">{title}</span>
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <button onClick={onMinimize} className="window-button">
+                    <Image src="/icons/window/minimize.png" alt="Minimize" width={16} height={16} />
+                  </button>
+                  
+                  <button onClick={handleMaximize} className="window-button">
+                    <Image
+                      src={`/icons/window/${isMaximized ? 'restore' : 'maximize'}.png`}
+                      alt={isMaximized ? 'Restore' : 'Maximize'}
+                      width={16}
+                      height={16}
+                    />
+                  </button>
+                  
+                  <button onClick={onClose} className="window-button close-button">
+                    <Image src="/icons/window/close.png" alt="Close" width={16} height={16} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="w-full overflow-auto bg-white" style={{ height: 'calc(100% - 32px)' }}>
+                {children}
+              </div>
+            </div>
+          </Resizable>
+        )}
+
+        {isMaximized && (
+          <>
+            <div className="window-title-bar h-8 flex items-center justify-between px-2 bg-gradient-to-r from-[#0058ee] to-[#3591ff] text-white">
               <div className="flex items-center gap-2">
                 {icon && (
                   <div className="relative w-4 h-4">
-                    <Image
-                      src={icon}
-                      alt={title}
-                      fill
-                      className="object-contain"
-                    />
+                    <Image src={icon} alt={title} fill className="object-contain" />
                   </div>
                 )}
                 <span className="text-sm font-bold">{title}</span>
               </div>
-              
+
               <div className="flex items-center gap-1">
-                <button
-                  onClick={onMinimize}
-                  className="window-button"
-                >
-                  <Image
-                    src="/icons/window/minimize.png"
-                    alt="Minimize"
-                    width={16}
-                    height={16}
-                  />
+                <button onClick={onMinimize} className="window-button">
+                  <Image src="/icons/window/minimize.png" alt="Minimize" width={16} height={16} />
                 </button>
                 
-                <button
-                  onClick={() => {
-                    setIsMaximized(!isMaximized);
-                    onMaximize();
-                  }}
-                  className="window-button"
-                >
-                  <Image
-                    src={`/icons/window/${isMaximized ? 'restore' : 'maximize'}.png`}
-                    alt={isMaximized ? 'Restore' : 'Maximize'}
-                    width={16}
-                    height={16}
-                  />
+                <button onClick={handleMaximize} className="window-button">
+                  <Image src="/icons/window/restore.png" alt="Restore" width={16} height={16} />
                 </button>
                 
-                <button
-                  onClick={onClose}
-                  className="window-button close-button"
-                >
-                  <Image
-                    src="/icons/window/close.png"
-                    alt="Close"
-                    width={16}
-                    height={16}
-                  />
+                <button onClick={onClose} className="window-button close-button">
+                  <Image src="/icons/window/close.png" alt="Close" width={16} height={16} />
                 </button>
               </div>
             </div>
 
-            {/* Contenu de la fenêtre */}
             <div className="w-full overflow-auto bg-white" style={{ height: 'calc(100% - 32px)' }}>
               {children}
             </div>
-          </div>
-        </Resizable>
-      )}
-
-      {isMaximized && (
-        <>
-          {/* Barre de titre */}
-          <div
-            {...attributes}
-            {...listeners}
-            className={`
-              h-8 flex items-center justify-between px-2
-              ${isActive 
-                ? 'bg-gradient-to-r from-[#0058ee] to-[#3591ff] text-white'
-                : 'bg-gradient-to-r from-[#7ba4e3] to-[#a7c7ff] text-gray-100'
-              }
-            `}
-          >
-            <div className="flex items-center gap-2">
-              {icon && (
-                <div className="relative w-4 h-4">
-                  <Image
-                    src={icon}
-                    alt={title}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              )}
-              <span className="text-sm font-bold">{title}</span>
-            </div>
-            
-            <div className="flex items-center gap-1">
-              <button
-                onClick={onMinimize}
-                className="window-button"
-              >
-                <Image
-                  src="/icons/window/minimize.png"
-                  alt="Minimize"
-                  width={16}
-                  height={16}
-                />
-              </button>
-              
-              <button
-                onClick={() => {
-                  setIsMaximized(!isMaximized);
-                  onMaximize();
-                }}
-                className="window-button"
-              >
-                <Image
-                  src={`/icons/window/${isMaximized ? 'restore' : 'maximize'}.png`}
-                  alt={isMaximized ? 'Restore' : 'Maximize'}
-                  width={16}
-                  height={16}
-                />
-              </button>
-              
-              <button
-                onClick={onClose}
-                className="window-button close-button"
-              >
-                <Image
-                  src="/icons/window/close.png"
-                  alt="Close"
-                  width={16}
-                  height={16}
-                />
-              </button>
-            </div>
-          </div>
-          
-          {/* Contenu de la fenêtre */}
-          <div className="flex-1 overflow-auto bg-white">
-            {children}
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </Draggable>
   );
 }

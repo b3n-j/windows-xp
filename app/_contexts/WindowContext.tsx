@@ -11,6 +11,7 @@ interface Window {
   component: React.ReactNode;
   position: { x: number; y: number };
   size: { width: number; height: number };
+  zIndex?: number;
 }
 
 interface WindowContextType {
@@ -30,6 +31,7 @@ const WindowContext = createContext<WindowContextType | null>(null);
 export function WindowProvider({ children }: { children: React.ReactNode }) {
   const [windows, setWindows] = useState<Window[]>([]);
   const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
+  const [zIndexCounter, setZIndexCounter] = useState(100);
 
   const addWindow = (window: Omit<Window, 'isMinimized' | 'isActive' | 'position'>) => {
     setWindows(prev => [...prev, { 
@@ -65,9 +67,12 @@ export function WindowProvider({ children }: { children: React.ReactNode }) {
   };
 
   const focusWindow = (id: string) => {
-    setWindows(prev => prev.map(w => 
-      w.id === id ? { ...w, isActive: true } : { ...w, isActive: false }
-    ));
+    setZIndexCounter(prev => prev + 1);
+    setWindows(prev => prev.map(w => ({
+      ...w,
+      isActive: w.id === id,
+      zIndex: w.id === id ? zIndexCounter : w.zIndex || 50
+    })));
     setActiveWindowId(id);
   };
 
