@@ -32,7 +32,7 @@
 }
 
 .window-button {
-  @apply w-6 h-6 flex items-center justify-center rounded hover:bg-white/20 active:bg-white/10;
+  @apply w-6 h-6 flex items-center justify-center rounded hover:bg-white/20 active:bg-white/10 bg-green-500;
 }
 
 .window-button.close-button:hover {
