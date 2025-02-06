@@ -127,7 +127,7 @@ export default function Window({
     >
       <div
         ref={nodeRef}
-        className={`window ${isActive ? 'active' : ''} ${isResizing ? 'resizing' : ''}`}
+        className={`window ${isActive ? 'active' : ''} ${isResizing ? 'resizing' : ''} ${isMaximized ? 'maximized' : ''}`}
         style={windowStyle}
       >
         <Resizable
@@ -144,7 +144,7 @@ export default function Window({
           <div style={{ width: '100%', height: '100%' }}>
             <div
               className={`
-                window-title-bar h-9 flex items-center justify-between px-1 pt-1
+                window-title-bar h-9 flex items-center justify-between px-1 pt-1 select-none
                 ${isActive 
                   ? 'bg-gradient-to-r from-[#0058ee] to-[#3591ff] text-white'
                   : 'bg-gradient-to-r from-[#7ba4e3] to-[#a7c7ff] text-gray-100'

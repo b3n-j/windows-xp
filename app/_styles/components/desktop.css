@@ -115,3 +115,26 @@
   user-select: none !important;
   -webkit-user-select: none !important;
 }
+
+/* Style pour la barre de titre draggable */
+.window-title-bar {
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+/* Désactiver le curseur grab quand la fenêtre est maximisée */
+.window.maximized .window-title-bar {
+  cursor: default;
+}
+
+/* Style pendant le drag */
+.window-title-bar:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
+/* Empêcher le drag sur les boutons */
+.window-title-bar .window-button {
+  cursor: pointer;
+}
