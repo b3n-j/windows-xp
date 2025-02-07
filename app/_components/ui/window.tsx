@@ -37,7 +37,7 @@ export default function Window({
 }: WindowProps) {
   const { windows, updateWindowSize, updateWindowPosition } = useWindows();
   const windowData = windows.find(w => w.id === id);
-  const [size, setSize] = useState(defaultSize);
+  const [size, setSize] = useState(windowData?.size || defaultSize);
   const [isMaximized, setIsMaximized] = useState(false);
   const [maxConstraints, setMaxConstraints] = useState([1200, 800]);
   const [isResizing, setIsResizing] = useState(false);
@@ -58,6 +58,12 @@ export default function Window({
     window.addEventListener('resize', updateMaxConstraints);
     return () => window.removeEventListener('resize', updateMaxConstraints);
   }, []);
+
+  useEffect(() => {
+    if (windowData?.size) {
+      setSize(windowData.size);
+    }
+  }, [windowData?.size]);
 
   const handleDrag = (e: any, data: { x: number; y: number }) => {
     if (windowData && !isMaximized) {
@@ -89,10 +95,8 @@ export default function Window({
       }
     }
 
-    requestAnimationFrame(() => {
-      setSize(updatedSize);
-      updateWindowSize(id, updatedSize.width, updatedSize.height);
-    });
+    setSize(updatedSize);
+    updateWindowSize(id, updatedSize.width, updatedSize.height);
   };
 
   const handleResizeStart = () => setIsResizing(true);
