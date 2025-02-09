@@ -1,12 +1,12 @@
 "use client";
 
-import Taskbar from "@/app/_components/widgets/desktop/taskbar/taskbar";
-import Window from "@/app/_components/ui/window";
-import { useWindows } from '@/app/_contexts/WindowContext';
+import Taskbar from "@/app/_components/widgets/taskbar/taskbar";
+import Window from "@/app/_components/widgets/window";
+import { useWindow } from "@/app/_hooks/useWindow";
 import { useEffect, useRef } from "react";
 
 export default function DesktopPage() {
-  const { windows, addWindow, removeWindow, minimizeWindow, focusWindow } = useWindows();
+  const { windows, addWindow, removeWindow, minimizeWindow, focusWindow } = useWindow();
   const initialized = useRef(false);
 
   // Exemple d'ouverture d'une fenêtre au chargement (une seule fois)
@@ -16,10 +16,10 @@ export default function DesktopPage() {
       addWindow({
         id: "my-computer",
         title: "My Computer",
-        icon: "/icons/my-computer.ico",
+        icon: "/icons/folder.ico",
         size: { width: 640, height: 480 },
         component: (
-          <div className="p-4">
+          <div>
             <h1>My Computer</h1>
             <p>This is the content of my computer window</p>
           </div>
@@ -29,7 +29,7 @@ export default function DesktopPage() {
       addWindow({
         id: "my-computer-second",
         title: "My Computer",
-        icon: "/icons/my-computer.ico",
+        icon: "/icons/ie.ico",
         size: { width: 640, height: 480 },
         component: (
           <div className="p-4">

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import StartMenu from '@/app/_components/widgets/desktop/taskbar/start-menu';
+import StartMenu from '@/app/_components/widgets/taskbar/start-menu';
 
 export default function StartButton() {
   const [isOpen, setIsOpen] = useState(false);

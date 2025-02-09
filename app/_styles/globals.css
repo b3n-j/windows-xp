@@ -9,7 +9,8 @@
 @layer components {
   @import './components/bios.css';
   @import './components/login.css';
-  @import './components/desktop.css';
+  @import './components/window.css';
+  @import './components/taskbar.css';
 }
 
 @layer utilities {

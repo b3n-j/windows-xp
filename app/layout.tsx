@@ -3,8 +3,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
 import React from "react";
+import { WindowProvider } from '@/app/_contexts/window-context';
 import "@/app/_styles/globals.css";
-import { WindowProvider } from '@/app/_contexts/WindowContext';
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`

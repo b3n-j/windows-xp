@@ -1,14 +1,18 @@
 import Image from 'next/image';
-import { useWindows } from '@/app/_contexts/WindowContext';
+import { useWindow } from '@/app/_hooks/useWindow';
 
 export default function StartMenu({ onClose }: { onClose: () => void }) {
-  const { addWindow } = useWindows();
+  const { addWindow } = useWindow();
 
   const openNotepad = () => {
     addWindow({
       id: `notepad-${Date.now()}`, // ID unique
       title: "Notepad",
       icon: "/icons/notepad.ico",
+      size: {
+        width: 2000,
+        height: 500,
+      },
       component: (
         <div className="p-4">
           <textarea className="w-full h-full resize-none" />

@@ -1,17 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import { useWindows } from '@/app/_contexts/WindowContext';
+import { useWindow } from "@/app/_hooks/useWindow";
 
 export default function RunningApps() {
-  const { windows, restoreWindow, focusWindow } = useWindows();
+  const { windows, restoreWindow, focusWindow } = useWindow();
 
   const handleClick = (windowId: string) => {
     const window = windows.find(w => w.id === windowId);
-    if (window?.isMinimized) {
-      restoreWindow(windowId);
-    } else {
-      focusWindow(windowId);
+    if (window) {
+      if (window.isMinimized) {
+        restoreWindow(windowId);
+      } else {
+        focusWindow(windowId);
+      }
     }
   };
 

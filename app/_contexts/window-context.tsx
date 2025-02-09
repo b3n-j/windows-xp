@@ -1,18 +1,7 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
-
-interface Window {
-  id: string;
-  title: string;
-  icon?: string;
-  isMinimized: boolean;
-  isActive: boolean;
-  component: React.ReactNode;
-  position: { x: number; y: number };
-  size: { width: number; height: number };
-  zIndex?: number;
-}
+import { createContext, useState } from 'react';
+import type { Window } from '@/app/_types/window';
 
 interface WindowContextType {
   windows: Window[];
@@ -26,7 +15,7 @@ interface WindowContextType {
   updateWindowSize: (id: string, width: number, height: number) => void;
 }
 
-const WindowContext = createContext<WindowContextType | null>(null);
+export const WindowContext = createContext<WindowContextType | null>(null);
 
 export function WindowProvider({ children }: { children: React.ReactNode }) {
   const [windows, setWindows] = useState<Window[]>([]);
@@ -116,12 +105,4 @@ export function WindowProvider({ children }: { children: React.ReactNode }) {
       {children}
     </WindowContext.Provider>
   );
-}
-
-export function useWindows() {
-  const context = useContext(WindowContext);
-  if (!context) {
-    throw new Error('useWindows must be used within a WindowProvider');
-  }
-  return context;
 } 
