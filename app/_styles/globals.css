@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @import "./base/variables.css";
+}
+
+@layer components {
+  @import './components/bios.css';
+  @import './components/login.css';
+  @import './components/window.css';
+  @import './components/taskbar.css';
+}
+
+@layer utilities {
+  @import './utilities.css';
+}

@@ -1,11 +1,10 @@
-import { Footer } from "@/app/_components/layout/footer";
-import { Header } from "@/app/_components/layout/header";
 import { APP_DESCRIPTION, APP_TITLE } from "@/app/_constants/config";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
 import React from "react";
-import "./globals.css";
+import { WindowProvider } from '@/app/_contexts/window-context';
+import "@/app/_styles/globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -29,23 +28,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
+      <body className="bg-background text-foreground overflow-hidden m-0 p-0">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center">
-              <Header />
-              <div className="flex flex-col gap-20 max-w-5xl p-5">
-                {children}
-                <SpeedInsights />
-              </div>
-              <Footer />
-            </div>
-          </main>
+          <WindowProvider>
+            <main className="min-h-screen w-screen overflow-hidden">
+              {children}
+              <SpeedInsights />
+            </main>
+          </WindowProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
 
   /* Authorized domains to fetch images from Supabase */
   images: {
-    domains: ['hfvazyqdtrydsgylnvwq.supabase.co']
+    domains: ['hfvazyqdtrydsgylnvwq.supabase.co'],
+    unoptimized: true,
   }
 };
 

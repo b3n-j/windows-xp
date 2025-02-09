@@ -1,0 +1,253 @@
+/* ========== Window Base Styles ========== */
+/* Main window container with Windows XP-like borders and styling */
+.window {
+  position: absolute;
+  box-shadow: 
+    inset -1px -1px #00138c,
+    inset 1px 1px #0831d9,
+    inset -2px -2px #001ea0,
+    inset 2px 2px #166aee,
+    inset -3px -3px #003bda,
+    inset 3px 3px #0855dd;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 0 0 3px 0;
+  -webkit-font-smoothing: antialiased;
+  background-color: white;
+}
+
+/* Active window gets highest z-index */
+.window.active {
+  z-index: 100;
+}
+
+/* Maximized window takes full viewport width/height */
+.window.maximized {
+  border-radius: 0;
+  width: 100vw !important;
+  height: calc(100vh - 32px) !important;
+}
+
+/* ========== Title Bar Styles ========== */
+/* Window header containing title and controls */
+.window-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 30px;
+  font-family: "Trebuchet MS";
+  background: linear-gradient(
+    180deg,
+    rgba(9, 151, 255, 1) 0%,
+    rgba(0, 83, 238, 1) 8%,
+    rgba(0, 80, 238, 1) 40%,
+    rgba(0, 102, 255, 1) 88%,
+    rgba(0, 102, 255, 1) 93%,
+    rgba(0, 91, 255, 1) 95%,
+    rgba(0, 61, 215, 1) 96%,
+    rgba(0, 61, 215, 1) 100%
+  );
+  padding: 3px 5px 3px 3px;
+  border-top: 1px solid #0831d9;
+  border-left: 1px solid #0831d9;
+  border-right: 1px solid #001ea0;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 7px;
+  font-size: 13px;
+  text-shadow: 1px 1px #0f1089;
+  cursor: grab;
+}
+
+/* Container for window icon and title */
+.window-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* Window title text */
+.title-bar-text {
+  padding-left: 3px;
+  color: white;
+}
+
+/* ========== Window Controls Styles ========== */
+/* Container for window control buttons */
+.title-bar-controls {
+  display: flex;
+}
+
+/* Base styles for control buttons */
+.title-bar-controls button {
+  min-width: 21px;
+  min-height: 21px;
+  margin-left: 2px;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: none;
+  background-color: #0050ee;
+  transition: background 100ms;
+  border: none;
+  padding: 0;
+}
+
+/* Remove box shadow on button interactions */
+.title-bar-controls button:active,
+.title-bar-controls button:hover,
+.title-bar-controls button:focus {
+  box-shadow: none !important;
+}
+
+/* ========== Control Button Icons ========== */
+/* Minimize button states */
+.title-bar-controls button[aria-label="Minimize"] {
+  background-image: url('/icons/minimize.svg');
+}
+.title-bar-controls button[aria-label="Minimize"]:hover {
+  background-image: url('/icons/minimize-hover.svg');
+}
+.title-bar-controls button[aria-label="Minimize"]:active {
+  background-image: url('/icons/minimize-active.svg');
+}
+
+/* Maximize button states */
+.title-bar-controls button[aria-label="Maximize"] {
+  background-image: url('/icons/maximize.svg');
+}
+.title-bar-controls button[aria-label="Maximize"]:hover {
+  background-image: url('/icons/maximize-hover.svg');
+}
+.title-bar-controls button[aria-label="Maximize"]:active {
+  background-image: url('/icons/maximize-active.svg');
+}
+
+/* Restore button states */
+.title-bar-controls button[aria-label="Restore"] {
+  background-image: url('/icons/restore.svg');
+}
+.title-bar-controls button[aria-label="Restore"]:hover {
+  background-image: url('/icons/restore-hover.svg');
+}
+.title-bar-controls button[aria-label="Restore"]:active {
+  background-image: url('/icons/restore-active.svg');
+}
+
+/* Close button states */
+.title-bar-controls button[aria-label="Close"] {
+  background-image: url('/icons/close.svg');
+}
+.title-bar-controls button[aria-label="Close"]:hover {
+  background-image: url('/icons/close-hover.svg');
+}
+.title-bar-controls button[aria-label="Close"]:active {
+  background-image: url('/icons/close-active.svg');
+}
+
+/* Help button states */
+.title-bar-controls button[aria-label="Help"] {
+  background-image: url('/icons/help.svg');
+}
+.title-bar-controls button[aria-label="Help"]:hover {
+  background-image: url('/icons/help-hover.svg');
+}
+.title-bar-controls button[aria-label="Help"]:active {
+  background-image: url('/icons/help-active.svg');
+}
+
+/* ========== Status Bar Styles ========== */
+/* Status bar container */
+.status-bar {
+  margin: 0 3px;
+  box-shadow: inset 0px 1px 2px var(--button-shadow);
+  padding: 2px 1px;
+  gap: 0px;
+}
+
+/* Individual status bar section */
+.status-bar-field {
+  font-family: var(--sans-serif);
+  -webkit-font-smoothing: antialiased;
+  box-shadow: none;
+  padding: 1px 2px;
+  border-right: 1px solid rgba(208, 206, 191, 0.75);
+  border-left: 1px solid rgba(255, 255, 255, 0.75);
+}
+
+/* Remove left border from first status field */
+.status-bar-field:first-of-type {
+  border-left: none;
+}
+
+/* Remove right border from last status field */
+.status-bar-field:last-of-type {
+  border-right: none;
+}
+
+/* ========== Resize Handle Styles ========== */
+/* Container for resize handles */
+.resize-handle {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Base styles for all resize handles */
+.react-resizable-handle {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+}
+
+/* South-East corner resize handle */
+.react-resizable-handle-se {
+  cursor: se-resize;
+  width: 16px;
+  height: 16px;
+  right: 0;
+  bottom: 0;
+  background-image: url('/icons/window/resize.png');
+}
+
+/* South (bottom) resize handle */
+.react-resizable-handle-s {
+  cursor: s-resize;
+  height: 6px;
+  width: calc(100% - 16px); /* Leave space for se handle */
+  bottom: 0;
+  left: 0;
+}
+
+/* East (right) resize handle */
+.react-resizable-handle-e {
+  cursor: e-resize;
+  width: 6px;
+  height: calc(100% - 16px); /* Leave space for se handle */
+  right: 0;
+  top: 0;
+}
+
+/* North (top) resize handle */
+.react-resizable-handle-n {
+  cursor: n-resize;
+  height: 6px;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+/* West (left) resize handle */
+.react-resizable-handle-w {
+  cursor: w-resize;
+  width: 6px;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+/* Hide resize handles when window is maximized */
+.window.maximized .react-resizable-handle {
+  display: none;
+}

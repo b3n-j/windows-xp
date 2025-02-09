@@ -1,0 +1,23 @@
+/* Styles pour la barre des tâches */
+.taskbar-button {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  
+  .taskbar-button:hover {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+  }
+  
+  .taskbar-button:active {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.05));
+  }
+  
+  /* Style pour le séparateur de la barre des tâches */
+  .taskbar-separator {
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.2),
+      rgba(255,255,255,0.1)
+    );
+  }

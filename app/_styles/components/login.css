@@ -1,0 +1,71 @@
+.login-screen {
+  background: linear-gradient(180deg, #235BCE 0%, #78B4FF 100%);
+}
+
+.login-divider {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.7) 20%,
+    rgba(255, 255, 255, 0.7) 80%,
+    transparent
+  );
+}
+
+.user-tile {
+  background: rgba(30, 75, 175, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.user-tile:hover {
+  background: rgba(40, 85, 185, 0.7);
+}
+
+.bottom-text {
+  color: white;
+  font-size: 11px;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.shutdown-button {
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 3px;
+}
+
+.shutdown-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.login-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  padding: 0 48px;
+}
+
+.windows-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: #0C246B;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+}

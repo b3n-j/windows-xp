@@ -7,11 +7,18 @@
 //     "/reset-password",
 // ];
 
-// export const PUBLIC_ROUTES = [
-//     ...AUTH_ROUTES,
-//     "/",
-//     "/about",
-//     "/contact",
-//     "/projects",
-//     "/resume",
-// ];
+export const ROUTES = {
+  BOOT: {
+    BIOS: '/',
+    WINDOWS: '/boot/windows',
+  },
+  LOGIN: '/login',
+  DESKTOP: '/desktop',
+} as const;
+
+export const PUBLIC_ROUTES = [
+  ROUTES.BOOT.BIOS,
+  ROUTES.BOOT.WINDOWS,
+  ROUTES.LOGIN,
+  ROUTES.DESKTOP,
+];
