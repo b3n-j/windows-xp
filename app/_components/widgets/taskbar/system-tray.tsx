@@ -22,26 +22,26 @@ export default function SystemTray() {
   }, []);
 
   return (
-    <div className="stray flex items-center h-full ml-auto">
+    <div className="stray flex items-center h-full ml-auto gap-2">
       <div className="flex items-center h-full">
-        <button className="taskbar-button-stray px-1 h-full flex items-center">
-          <div className="relative w-4 h-4">
-            <Image src="/icons/folder.ico" alt="Volume" fill className="object-contain" />
+        <button className="taskbar-button-stray h-full flex items-center">
+          <div className="flex">
+            <Image src="/icons/folder.ico" alt="Volume" width={15} height={15} className="object-contain" />
           </div>
         </button>
-        <button className="taskbar-button-stray px-1 h-full flex items-center">
-          <div className="relative w-4 h-4">
-            <Image src="/icons/what.ico" alt="Network" fill className="object-contain" />
+        <button className="taskbar-button-stray h-full flex items-center">
+          <div className="flex">
+            <Image src="/icons/what.ico" alt="Network" width={15} height={15} className="object-contain" />
           </div>
         </button>
-        <button className="taskbar-button-stray px-1 h-full flex items-center">
-          <div className="relative w-4 h-4">
-            <Image src="/icons/trash.ico" alt="Security" fill className="object-contain" />
+        <button className="taskbar-button-stray h-full flex items-center">
+          <div className="flex">
+            <Image src="/icons/trash.ico" alt="Security" width={15} height={15} className="object-contain" />
           </div>
         </button>
       </div>
-      <div className="h-full px-2 flex items-center">
-        <span className="text-white text-xs">{time}</span>
+      <div className="h-full flex items-center">
+        <span className="hour">{time}</span>
       </div>
     </div>
   );

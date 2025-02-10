@@ -72,7 +72,7 @@
   );
 }
 
-/* en bas a droite*/
+/* System stray */
 .stray {
   background: linear-gradient(
     rgb(12, 89, 185) 1%,
@@ -92,4 +92,17 @@
   box-shadow: rgb(24, 187, 255) 1px 0px 1px inset;
   padding: 0px 10px;
   margin-left: 10px;
+}
+
+.taskbar-button-stray {
+  padding-right: 2px;
+}
+
+.taskbar-button-stray:last-child {
+  padding-right: 0;
+}
+
+.hour {
+  font-size: 11px;
+  font-weight: 200;
 }
