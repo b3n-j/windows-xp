@@ -7,7 +7,7 @@ export default function QuickLaunch() {
   ];
 
   return (
-    <div className="flex items-center h-full px-1">
+    <div className="flex items-center h-full px-2">
       {quickLaunchItems.map((item, index) => (
         <button
           key={index}
