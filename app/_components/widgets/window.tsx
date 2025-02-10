@@ -37,7 +37,7 @@ export default function Window({
   onMinimize,
   onMaximize,
 }: WindowProps) {
-  const { windows, updateWindowPosition } = useWindow();
+  const { windows, updateWindowPosition, toggleMaximize } = useWindow();
   const windowData = windows.find((w) => w.id === id);
   const { isMaximized, handleMaximize } = useWindowMaximize();
   const {
@@ -60,12 +60,12 @@ export default function Window({
   };
 
   const handleMaximizeClick = () => {
-    handleMaximize(onMaximize);
+    handleMaximize();
   };
 
   const windowStyle = {
-    width: isMaximized ? "100%" : size.width,
-    height: isMaximized ? "calc(100% - 32px)" : size.height,
+    width: isMaximized ? "100vw" : size.width,
+    height: isMaximized ? "calc(100vh - 32px)" : size.height,
     //  borderRadius: isMaximized ? 0 : "8px 8px 0 0",
     // boxShadow: isActive
     //   ? "0 4px 20px rgba(0,0,0,0.3)"
@@ -98,6 +98,7 @@ export default function Window({
         onResizeStop={handleResizeStop}
         resizeHandles={isMaximized ? [] : ["s", "w", "e", "n", "se"]}
         className="resize-handle"
+        disabled={isMaximized}
       >
         <div
           ref={nodeRef as React.RefObject<HTMLDivElement>}

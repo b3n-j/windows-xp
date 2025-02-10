@@ -4,6 +4,7 @@ export interface Window {
     icon?: string;
     isMinimized: boolean;
     isActive: boolean;
+    isMaximized: boolean;
     component: React.ReactNode;
     position: { x: number; y: number };
     size: { width: number; height: number };
