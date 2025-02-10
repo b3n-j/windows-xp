@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useWindow } from "@/app/_hooks/useWindow";
 
 export default function RunningApps() {
-  const { windows, restoreWindow, focusWindow } = useWindow();
+  const { windows, restoreWindow, focusWindow, activeWindowId } = useWindow();
 
   const handleClick = (windowId: string) => {
     const window = windows.find(w => w.id === windowId);
@@ -18,19 +18,17 @@ export default function RunningApps() {
   };
 
   return (
-    <div className="flex-1 flex items-center h-full px-1">
+    <div className="flex items-center h-full">
       {windows.map((window) => (
         <button
           key={window.id}
           onClick={() => handleClick(window.id)}
-          className={`taskbar-button h-[90%] px-2 flex items-center gap-2 min-w-[150px] max-w-[200px] ${
-            window.isActive ? 'bg-gradient-to-b from-[rgba(255,255,255,0.3)] to-[rgba(255,255,255,0.2)]' : ''
-          }`}
+          className={`taskbar-button ${window.id === activeWindowId ? 'active' : ''}`}
         >
-          <div className="relative w-6 h-6">
-            <Image src={window.icon || '/icons/default.ico'} alt={window.title} fill className="object-contain" />
+          <div className="flex relative">
+            <Image src={window.icon || '/icons/help.svg'} alt={window.title} width={15} height={15} className="object-contain" />
           </div>
-          <span className="text-white text-sm truncate">{window.title}</span>
+          <span className="taskbar-button-title">{window.title}</span>
         </button>
       ))}
     </div>

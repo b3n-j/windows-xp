@@ -2,23 +2,22 @@
 /* Main window container with Windows XP-like borders and styling */
 .window {
   position: absolute;
-  box-shadow: 
-    inset -1px -1px #00138c,
-    inset 1px 1px #0831d9,
-    inset -2px -2px #001ea0,
-    inset 2px 2px #166aee,
-    inset -3px -3px #003bda,
-    inset 3px 3px #0855dd;
+  padding: 0 0 3px 0;
+  background-color: #ece9d8;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  padding: 0 0 3px 0;
-  -webkit-font-smoothing: antialiased;
-  background-color: white;
+  box-shadow: inset -1px -1px #7697e7, inset 1px 1px #94afe8,
+    inset -2px -2px #7c9fe2, inset 2px 2px #82a5e4, inset -3px -3px #7b96de,
+    inset 3px 3px #82a9e9;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Active window gets highest z-index */
 .window.active {
   z-index: 100;
+  box-shadow: inset -1px -1px #00138c, inset 1px 1px #0831d9,
+    inset -2px -2px #001ea0, inset 2px 2px #166aee, inset -3px -3px #003bda,
+    inset 3px 3px #0855dd;
 }
 
 /* Maximized window takes full viewport width/height */
@@ -35,7 +34,37 @@
   flex-direction: row;
   justify-content: space-between;
   height: 30px;
+  padding: 3px 5px 3px 3px;
+  font-size: 13px;
   font-family: "Trebuchet MS";
+  border-top-left-radius: 8px;
+  border-top-right-radius: 7px;
+  border-top: 1px solid #7697e7;
+  border-left: 1px solid #7697e7;
+  border-right: 1px solid #7a93df;
+  text-shadow: 1px 1px #7697e7;
+  background: linear-gradient(
+    rgb(118, 151, 231) 0%,
+    rgb(126, 158, 227) 3%,
+    rgb(148, 175, 232) 6%,
+    rgb(151, 180, 233) 8%,
+    rgb(130, 165, 228) 14%,
+    rgb(124, 159, 226) 17%,
+    rgb(121, 150, 222) 25%,
+    rgb(123, 153, 225) 56%,
+    rgb(130, 169, 233) 81%,
+    rgb(128, 165, 231) 89%,
+    rgb(123, 150, 225) 94%,
+    rgb(122, 147, 223) 97%,
+    rgb(171, 186, 227) 100%
+  );
+
+
+  cursor: grab;
+}
+
+/* Window header color when window is active */
+.window.active .window-header {
   background: linear-gradient(
     180deg,
     rgba(9, 151, 255, 1) 0%,
@@ -47,15 +76,10 @@
     rgba(0, 61, 215, 1) 96%,
     rgba(0, 61, 215, 1) 100%
   );
-  padding: 3px 5px 3px 3px;
   border-top: 1px solid #0831d9;
   border-left: 1px solid #0831d9;
   border-right: 1px solid #001ea0;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 7px;
-  font-size: 13px;
   text-shadow: 1px 1px #0f1089;
-  cursor: grab;
 }
 
 /* Container for window icon and title */
@@ -84,11 +108,16 @@
   margin-left: 2px;
   background-repeat: no-repeat;
   background-position: center;
-  box-shadow: none;
-  background-color: #0050ee;
-  transition: background 100ms;
+  box-shadow: none; 
   border: none;
-  padding: 0;
+  filter: grayscale(20%) brightness(100%) contrast(75%);
+  opacity: 0.5;
+}
+
+/* Button styles when window is active */
+.window.active .title-bar-controls button {
+  filter: none;
+  opacity: 1;
 }
 
 /* Remove box shadow on button interactions */
@@ -101,57 +130,57 @@
 /* ========== Control Button Icons ========== */
 /* Minimize button states */
 .title-bar-controls button[aria-label="Minimize"] {
-  background-image: url('/icons/minimize.svg');
+  background-image: url("/icons/minimize.svg");
 }
 .title-bar-controls button[aria-label="Minimize"]:hover {
-  background-image: url('/icons/minimize-hover.svg');
+  background-image: url("/icons/minimize-hover.svg");
 }
 .title-bar-controls button[aria-label="Minimize"]:active {
-  background-image: url('/icons/minimize-active.svg');
+  background-image: url("/icons/minimize-active.svg");
 }
 
 /* Maximize button states */
 .title-bar-controls button[aria-label="Maximize"] {
-  background-image: url('/icons/maximize.svg');
+  background-image: url("/icons/maximize.svg");
 }
 .title-bar-controls button[aria-label="Maximize"]:hover {
-  background-image: url('/icons/maximize-hover.svg');
+  background-image: url("/icons/maximize-hover.svg");
 }
 .title-bar-controls button[aria-label="Maximize"]:active {
-  background-image: url('/icons/maximize-active.svg');
+  background-image: url("/icons/maximize-active.svg");
 }
 
 /* Restore button states */
 .title-bar-controls button[aria-label="Restore"] {
-  background-image: url('/icons/restore.svg');
+  background-image: url("/icons/restore.svg");
 }
 .title-bar-controls button[aria-label="Restore"]:hover {
-  background-image: url('/icons/restore-hover.svg');
+  background-image: url("/icons/restore-hover.svg");
 }
 .title-bar-controls button[aria-label="Restore"]:active {
-  background-image: url('/icons/restore-active.svg');
+  background-image: url("/icons/restore-active.svg");
 }
 
 /* Close button states */
 .title-bar-controls button[aria-label="Close"] {
-  background-image: url('/icons/close.svg');
+  background-image: url("/icons/close.svg");
 }
 .title-bar-controls button[aria-label="Close"]:hover {
-  background-image: url('/icons/close-hover.svg');
+  background-image: url("/icons/close-hover.svg");
 }
 .title-bar-controls button[aria-label="Close"]:active {
-  background-image: url('/icons/close-active.svg');
+  background-image: url("/icons/close-active.svg");
 }
 
 /* Help button states */
 .title-bar-controls button[aria-label="Help"] {
-  background-image: url('/icons/help.svg');
+  background-image: url("/icons/help.svg");
 }
 .title-bar-controls button[aria-label="Help"]:hover {
-  background-image: url('/icons/help-hover.svg');
+  background-image: url("/icons/help-hover.svg");
 }
 .title-bar-controls button[aria-label="Help"]:active {
-  background-image: url('/icons/help-active.svg');
+  background-image: url("/icons/help-active.svg");
 }
 
 /* ========== Status Bar Styles ========== */
@@ -208,7 +237,7 @@
   height: 16px;
   right: 0;
   bottom: 0;
-  background-image: url('/icons/window/resize.png');
+  background-image: url("/icons/window/resize.png");
 }
 
 /* South (bottom) resize handle */

@@ -7,14 +7,14 @@ export default function QuickLaunch() {
   ];
 
   return (
-    <div className="flex items-center h-full gap-1 px-1">
+    <div className="flex items-center h-full px-1">
       {quickLaunchItems.map((item, index) => (
         <button
           key={index}
-          className="taskbar-button w-8 h-8 flex items-center justify-center rounded hover:brightness-105 active:brightness-90"
+          className="taskbar-quicklaunch-button w-6 h-full flex items-center justify-center hover:brightness-105 active:brightness-90"
         >
-          <div className="relative w-4 h-4">
-            <Image src={item.icon} alt={item.alt} fill className="object-contain" />
+          <div className="flex justify-center h-full">
+            <Image src={item.icon} alt={item.alt} width={15} height={15} className="object-contain" />
           </div>
         </button>
       ))}
