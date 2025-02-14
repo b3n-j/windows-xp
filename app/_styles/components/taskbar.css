@@ -2,7 +2,7 @@
 .taskbar {
   display: flex;
   justify-items: center;
-  font-family: "Trebuchet MS";
+  font-family: "Tahoma";
   height: 32px;
   background: linear-gradient(
     rgb(31, 47, 134) 0px,
@@ -62,16 +62,6 @@
   margin-left: 3px;
 }
 
-/* Style pour le séparateur de la barre des tâches */
-.taskbar-separator {
-  width: 1px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.2),
-    rgba(255, 255, 255, 0.1)
-  );
-}
-
 /* System stray */
 .stray {
   background: linear-gradient(
@@ -116,7 +106,7 @@
   width: 95px;
   position: relative;
   bottom: 0;
-  background-image: url('/images/start.png');
+  background-image: url("/images/start.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -126,10 +116,10 @@
 }
 
 .start-button:hover {
-  background-image: url('/images/start-hover.png');
+  background-image: url("/images/start-hover.png");
 }
 
 .start-button.active,
 .start-button:active {
-  background-image: url('/images/start-active.png');
+  background-image: url("/images/start-active.png");
 }

@@ -14,10 +14,11 @@ export default function DesktopPage() {
     if (!initialized.current) {
       initialized.current = true;
       addWindow({
-        id: "my-computer",
-        title: "My Computer",
+        id: "my-computer-window-test",
+        title: "My Computerr",
         icon: "/icons/folder.ico",
         size: { width: 640, height: 480 },
+        isMaximized: false,
         component: (
           <div>
             <h1>My Computer</h1>
@@ -26,18 +27,6 @@ export default function DesktopPage() {
         )
       });
 
-      addWindow({
-        id: "my-computer-second",
-        title: "My Computer",
-        icon: "/icons/ie.ico",
-        size: { width: 640, height: 480 },
-        component: (
-          <div className="p-4">
-            <h1>My Computer</h1>
-            <p>This is the content of my computer window</p>
-          </div>
-        )
-      });
     }
   }, []);
 

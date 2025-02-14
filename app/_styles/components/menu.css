@@ -1,0 +1,221 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  align-items: center;
+  width: 340px;
+  bottom: 33px;
+  font-size: 11px;
+  line-height: 14px;
+  -webkit-box-align: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: rgb(66, 130, 214);
+
+  /* position: absolute;
+      left: 0px; */
+  box-shadow: rgba(0, 0, 0, 0.35) 2px 2px 3px, rgba(0, 0, 0, 0.2) -1px 0px 2px,
+    rgba(0, 0, 0, 0.15) 0px 0px 1px inset;
+  /* bottom: 100%; */
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  -webkit-box-align: center;
+  height: 54px;
+  width: 100%;
+  padding: 6px 5px 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: rgb(255, 255, 255);
+  background: linear-gradient(
+    rgb(24, 104, 206) 0%,
+    rgb(14, 96, 203) 12%,
+    rgb(14, 96, 203) 20%,
+    rgb(17, 100, 207) 32%,
+    rgb(22, 103, 207) 33%,
+    rgb(27, 108, 211) 47%,
+    rgb(30, 112, 217) 54%,
+    rgb(36, 118, 220) 60%,
+    rgb(41, 122, 224) 65%,
+    rgb(52, 130, 227) 77%,
+    rgb(55, 134, 229) 79%,
+    rgb(66, 142, 233) 90%,
+    rgb(71, 145, 235) 100%
+  );
+}
+
+.menu-header::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 1px;
+  left: 0px;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    transparent 0px,
+    rgba(255, 255, 255, 0.3) 1%,
+    rgba(255, 255, 255, 0.5) 2%,
+    rgba(255, 255, 255, 0.5) 95%,
+    rgba(255, 255, 255, 0.3) 98%,
+    rgba(255, 255, 255, 0.2) 99%,
+    transparent 100%
+  );
+  box-shadow: rgb(14, 96, 203) 0px -1px 1px inset;
+}
+
+.menu-header-image {
+  width: 42px;
+  height: 42px;
+  border-radius: 3px;
+  border: 2px solid rgba(222, 222, 222, 0.8);
+}
+
+.menu-header-username {
+  font-size: 14px;
+  font-weight: 700;
+  text-shadow: rgba(0, 0, 0, 0.7) 1px 1px;
+}
+
+.orange-gradient-divider {
+  display: flex;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  width: 100%;
+  top: 54px;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgb(218, 136, 74) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border: 0px;
+}
+
+.menu-body {
+  display: flex;
+  padding-top: 2px;
+  flex-direction: row;
+  width: 100%;
+  margin: 0px 4px;
+  position: relative;
+  border-top: 1px solid rgb(56, 93, 231);
+  box-shadow: rgb(56, 93, 231) 0px 1px;
+}
+
+.menu-left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 50%;
+  width: 100%;
+  min-height: 100%;
+  padding: 6px 5px 0px;
+  background-color: white;
+  margin-left: 2px;
+  color: black;
+}
+
+.menu-right-column {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  min-height: 100%;
+  margin-right: 2px;
+  padding: 6px 5px 5px;
+  border-left: 1px solid rgba(58, 58, 255, 0.37);
+  background-color: rgb(203, 227, 255);
+  color: #00136b;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-items: flex-end;
+  width: 100%;
+  height: 34px;
+}
+
+.menu-item:hover {
+  background-color: rgb(47, 113, 205);
+  color: rgb(255, 255, 255);
+}
+
+.menu-item:focus {
+  background-color: rgb(47, 113, 205);
+  color: rgb(255, 255, 255);
+}
+
+.menu-right-column .menu-item {
+  height: 26px;
+  margin-bottom: 4px;
+}
+
+.program-name {
+  font-weight: 100;
+  align-items: start;
+}
+
+.program-description {
+  color: rgba(0, 0, 0, 0.4);
+  line-height: 12px;
+  margin-bottom: 1px;
+  align-items: start;
+}
+
+.menu-divider {
+  /* margin-top: 7px; */
+  height: 7.5px;
+  background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0) 100%
+    )
+    content-box;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+}
+
+.menu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 36px;
+  width: 100%;
+  color: rgb(255, 255, 255);
+  background: linear-gradient(
+    rgb(66, 130, 214) 0%,
+    rgb(59, 133, 224) 3%,
+    rgb(65, 138, 227) 5%,
+    rgb(65, 138, 227) 17%,
+    rgb(60, 135, 226) 21%,
+    rgb(55, 134, 228) 26%,
+    rgb(52, 130, 227) 29%,
+    rgb(46, 126, 225) 39%,
+    rgb(35, 116, 223) 49%,
+    rgb(32, 114, 219) 57%,
+    rgb(25, 110, 219) 62%,
+    rgb(23, 107, 216) 72%,
+    rgb(20, 104, 213) 75%,
+    rgb(17, 101, 210) 83%,
+    rgb(15, 97, 203) 88%
+  );
+}
+
+.menu-footer .menu-list-item .menu-item {
+    padding: 0 7px;
+
+    &:hover, &:focus {
+        background-color: rgba(60, 80, 210, 0.5);
+    }
+}
+
+.bold {
+  font-weight: 700;
+}

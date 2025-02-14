@@ -1,59 +1,123 @@
-import Image from 'next/image';
-import { useWindow } from '@/app/_hooks/useWindow';
+import Image from "next/image";;
+import { useWindow } from "@/app/_hooks/useWindow";
+import { menu } from "@/app/_constants/menu";
+import StartMenuItem from "./start-menu-item";
+import { MenuItem } from "@/app/_types/menu";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/app/_constants/routes";
 
 export default function StartMenu({ onClose }: { onClose: () => void }) {
   const { addWindow } = useWindow();
+  const router = useRouter();
 
-  const openNotepad = () => {
+  const openProgram = (program: MenuItem) => {
     addWindow({
-      id: `notepad-${Date.now()}`, // ID unique
-      title: "Notepad",
-      icon: "/icons/notepad.ico",
+      id: program.id,
+      title: program.name,
+      icon: program.icon,
       size: {
         width: 2000,
         height: 500,
       },
+      isMaximized: false,
       component: (
         <div className="p-4">
           <textarea className="w-full h-full resize-none" />
         </div>
-      )
+      ),
     });
-    onClose(); // Ferme le menu démarrer
+    onClose();
   };
 
   return (
-    <div className="absolute bottom-8 left-0 w-96 bg-white rounded-t-lg shadow-xl"
-         style={{ zIndex: 10000 }}>
-      {/* En-tête avec l'utilisateur */}
-      <div className="h-20 bg-gradient-to-r from-[#245EDC] to-[#3C8EF3] rounded-t-lg p-4 flex items-center gap-4">
-        <div className="relative w-12 h-12">
-          <Image 
+    <div className="menu" style={{ zIndex: 10000 }}>
+      {/* Menu header */}
+      <div className="menu-header gap-2">
+        <div className="relative w-11 h-11">
+          <Image
             src="/images/account/astronaut.jpg"
             alt="User"
             fill
-            sizes="48px"
+            sizes="42px"
             priority
-            className="object-cover rounded-full border-2 border-white"
+            className="menu-header-image"
           />
         </div>
-        <span className="text-white font-bold">Benjamin Gracia</span>
+        <span className="menu-header-username">Benjamin Gracia</span>
       </div>
 
-      {/* Zone principale du menu */}
-      <div className="flex h-[400px]">
-        {/* Colonne de gauche */}
-        <div className="w-2/3 p-2 bg-white">
-          <button onClick={openNotepad} className="w-full text-left p-2 hover:bg-blue-50">
-            Notepad
-          </button>
-        </div>
+      <hr className="orange-gradient-divider"></hr>
 
-        {/* Colonne de droite */}
-        <div className="w-1/3 bg-[#D3E5FA] p-2">
-          {/* Les raccourcis système iront ici */}
+      {/* Menu body */}
+      <div className="menu-body">
+        <div className="flex flex-col w-full h-full">
+          <div className="flex flex-row w-full h-full">
+            {/* Menu left column */}
+            <div className="menu-left-column">
+              <ul>
+                {menu.left.apps.map((item) =>
+                  item.id === "menu-divider" ? (
+                    <div
+                      key={`${item.id}-${item.name}`}
+                      className="menu-divider"
+                    />
+                  ) : (
+                    <li key={item.id} className="menu-list-item">
+                      <StartMenuItem
+                        {...item}
+                        onClick={() => openProgram(item)}
+                        iconSize={30}
+                      />
+                    </li>
+                  )
+                )}
+              </ul>
+              <div className="menu-all-programs">All programs</div>
+            </div>
+            {/* Menu right column */}
+            <ul className="menu-right-column">
+              {menu.right.shortcuts.map((item) =>
+                item.id === "menu-divider" ? (
+                  <div
+                    key={`${item.id}-${item.name}`}
+                    className="menu-divider"
+                  />
+                ) : (
+                  <li key={item.id} className="menu-list-item">
+                    <StartMenuItem
+                      {...item}
+                      onClick={() => openProgram(item)}
+                      iconSize={22}
+                    />
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+          <section className="menu-footer">
+            <ul className="flex flex-row gap-2 px-1">
+              <li className="menu-list-item">
+                <StartMenuItem
+                id="log-off"
+                name="Log off"
+                icon="/icons/log-off.ico"
+                iconSize={22}
+                onClick={() => router.push(ROUTES.LOGIN)}
+              />
+              </li>
+              <li className="menu-list-item">
+                <StartMenuItem
+                  id="shutdown"
+                  name="Turn off computer"
+                  icon="/icons/shutdown.ico"
+                  iconSize={22}
+                  onClick={() => {}}
+                />
+              </li>
+            </ul>
+          </section>
         </div>
       </div>
     </div>
   );
-} 
+}

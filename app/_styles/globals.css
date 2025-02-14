@@ -11,6 +11,7 @@
   @import './components/login.css';
   @import './components/window.css';
   @import './components/taskbar.css';
+  @import './components/menu.css';
 }
 
 @layer utilities {
